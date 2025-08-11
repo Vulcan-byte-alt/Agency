@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Agency - Big Agency Work. Small Agency Energy.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .hero-container {
+            background: #000;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0);
+            opacity: 0;
+            z-index: 3;
+        }
+
+        .hero-text {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: textReveal 1.5s ease-out 0.5s forwards;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-text .word {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: wordReveal 0.8s ease-out forwards;
+        }
+
+        .hero-text .line:nth-child(1) .word:nth-child(1) { animation-delay: 0.2s; }
+        .hero-text .line:nth-child(1) .word:nth-child(2) { animation-delay: 0.5s; }
+        
+        .hero-text .line:nth-child(2) .word:nth-child(1) { animation-delay: 0.8s; }
+        .hero-text .line:nth-child(2) .word:nth-child(2) { animation-delay: 1.1s; }
+        
+        .hero-text .line:nth-child(3),
+        .hero-text .line:nth-child(4),
+        .hero-text .line:nth-child(5) {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        @keyframes wordReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes lineReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 800px;
+            height: 500px;
+            background: 
+                radial-gradient(ellipse at center, rgba(239, 68, 68, 0.4) 0%, rgba(239, 68, 68, 0.25) 20%, rgba(220, 38, 38, 0.15) 40%, rgba(185, 28, 28, 0.08) 60%, transparent 80%),
+                radial-gradient(ellipse at center, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            z-index: 5;
+            pointer-events: none;
+            filter: blur(30px);
+            box-shadow: 
+                inset 0 0 100px rgba(239, 68, 68, 0.2),
+                0 0 150px rgba(239, 68, 68, 0.3),
+                0 0 200px rgba(239, 68, 68, 0.1);
+        }
+
+        .hero-glow::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 400px;
+            height: 250px;
+            background: radial-gradient(ellipse, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+            transform: translate(-50%, -60%);
+            filter: blur(15px);
+        }
+
+        @keyframes glowReveal {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes textReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes lineReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .pixel-reconstruction {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .pixel-shard {
+            position: absolute;
+            background-image: url('hero.jpg');
+            background-repeat: no-repeat;
+            opacity: 0;
+            transform: scale(0) rotate(45deg);
+            filter: blur(5px);
+            transition: none;
+        }
+
+        .pixel-shard.animate {
+            animation: pixelAssemble 0.8s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+        }
+
+        @keyframes pixelAssemble {
+            0% {
+                opacity: 0;
+                transform: scale(0.3) rotate(20deg);
+                filter: blur(3px);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05) rotate(5deg);
+                filter: blur(1px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes backgroundReveal {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .nav-reveal {
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-scrolled {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            margin: 1rem 2rem;
+            padding: 0.75rem 2rem !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes navReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .portfolio-reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            animation: portfolioReveal 1s ease-out 4s forwards;
+        }
+
+        @keyframes portfolioReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .masonry-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(239, 68, 68, 0.25);
+        }
+
+        .masonry-grid {
+            column-count: 4;
+            column-gap: 1.5rem;
+        }
+
+        @media (max-width: 1200px) {
+            .masonry-grid {
+                column-count: 3;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .masonry-grid {
+                column-count: 2;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .masonry-grid {
+                column-count: 1;
+            }
+        }
+
+        .portfolio-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #1a1a1a;
+        }
+
+        .portfolio-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, rgba(239, 68, 68, 0.8) 0%, rgba(220, 38, 38, 0.9) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+
+        .portfolio-item:hover::before {
+            opacity: 1;
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 20;
+        }
+
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+        }
+
+        .logo {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+        }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .red-accent {
+            color: #ef4444;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body class="bg-black text-white overflow-x-hidden">
+    <!-- Navigation -->
+    <nav class="nav-reveal fixed top-0 left-0 right-0 z-50 px-8 py-6">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="logo text-2xl font-black tracking-tight">
+                AGENCY
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#" class="nav-link text-white hover:text-red-500">Work</a>
+                <a href="#" class="nav-link text-white hover:text-red-500">Services</a>
+                <a href="#" class="nav-link text-white hover:text-red-500">About</a>
+                <a href="#" class="nav-link text-white hover:text-red-500">Contact</a>
+            </div>
+            <button class="md:hidden w-6 h-6 flex flex-col justify-center items-center space-y-1">
+                <span class="w-full h-0.5 bg-white transition-all"></span>
+                <span class="w-full h-0.5 bg-white transition-all"></span>
+                <span class="w-full h-0.5 bg-white transition-all"></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-container min-h-screen relative flex items-center justify-center">
+        <div class="hero-bg"></div>
+        <div class="pixel-reconstruction" id="pixelContainer"></div>
+        
+        <div class="hero-glow"></div>
+        <div class="hero-text relative z-10 text-center px-8 max-w-6xl mx-auto">
+            <!-- Premium Hero Text -->
+            <div class="line mb-6">
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-light tracking-tight text-white" style="font-family: 'Montserrat', sans-serif; line-height: 1.1; font-weight: 200; letter-spacing: -0.01em;">
+                    <span class="word">Big Agency</span> <span class="word gradient-text" style="font-weight: 600;">Work.</span>
+                </h1>
+            </div>
+            <div class="line mb-10">
+                <h2 class="text-4xl md:text-6xl lg:text-7xl font-light tracking-tight text-white" style="font-family: 'Montserrat', sans-serif; line-height: 1.15; font-weight: 200; letter-spacing: -0.01em; padding-bottom: 0.25em;">
+                    <span class="word">Small Agency</span> <span class="word gradient-text" style="font-weight: 600;">Energy.</span>
+                </h2>
+            </div>
+            
+            <!-- Elegant Divider -->
+            <div class="line mb-8">
+                <div class="w-24 h-px bg-gradient-to-r from-transparent via-red-500 to-transparent mx-auto opacity-60"></div>
+            </div>
+            
+            <!-- Premium Description -->
+            <div class="line mb-12">
+                <p class="text-sm md:text-base text-gray-400 font-light max-w-lg mx-auto uppercase tracking-widest opacity-80" style="letter-spacing: 0.15em;">
+                    Strategy • Design • Development • Growth
+                </p>
+            </div>
+            
+            <!-- Refined Button -->
+            <div class="line">
+                <button class="group relative px-8 py-4 bg-transparent border border-red-500/30 text-white font-light text-sm uppercase tracking-widest rounded-sm hover:bg-red-500/10 transition-all duration-500 overflow-hidden">
+                    <span class="relative z-10">View Our Work</span>
+                    <div class="absolute inset-0 bg-gradient-to-r from-red-500/0 via-red-500/5 to-red-500/0 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="portfolio-reveal absolute bottom-8 left-1/2 transform -translate-x-1/2">
+            <div class="w-6 h-10 border-2 border-red-500 rounded-full flex justify-center">
+                <div class="w-1 h-3 bg-red-500 rounded-full mt-2 animate-bounce"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="portfolio-reveal py-24 px-8 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-6xl font-black mb-6">
+                    Our <span class="gradient-text">Portfolio</span>
+                </h2>
+                <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+                    Showcasing our latest work across industries and platforms
+                </p>
+            </div>
+            
+            <div class="masonry-grid">
+                <!-- Portfolio Item 1 -->
+                <div class="masonry-item">
+                    <div class="portfolio-item group">
+                        <img src="portfolio/Illinois-HCOM.webp" alt="Illinois Health Communication" class="w-full h-auto object-cover">
+                        <div class="portfolio-overlay">
+                            <div class="text-center">
+                                <h3 class="text-2xl font-bold mb-2">Illinois HCOM</h3>
+                                <p class="text-sm">Healthcare Education Platform</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Portfolio Item 2 -->
+                <div class="masonry-item">
+                    <div class="portfolio-item group">
+                        <img src="portfolio/Optum.webp" alt="Optum Campaign" class="w-full h-auto object-cover">
+                        <div class="portfolio-overlay">
+                            <div class="text-center">
+                                <h3 class="text-2xl font-bold mb-2">Optum</h3>
+                                <p class="text-sm">Healthcare Marketing Campaign</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Portfolio Item 3 -->
+                <div class="masonry-item">
+                    <div class="portfolio-item group">
+                        <img src="portfolio/Illinois-SBC-Phone.webp" alt="Illinois SBC Mobile" class="w-full h-auto object-cover">
+                        <div class="portfolio-overlay">
+                            <div class="text-center">
+                                <h3 class="text-2xl font-bold mb-2">Illinois SBC</h3>
+                                <p class="text-sm">Mobile Experience</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Portfolio Item 4 -->
+                <div class="masonry-item">
+                    <div class="portfolio-item group">
+                        <img src="portfolio/Shakira.webp" alt="Shakira Foundation" class="w-full h-auto object-cover">
+                        <div class="portfolio-overlay">
+                            <div class="text-center">
+                                <h3 class="text-2xl font-bold mb-2">Pies Descalzos</h3>
+                                <p class="text-sm">Non-Profit Foundation</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Portfolio Item 5 -->
+                <div class="masonry-item">
+                    <div class="portfolio-item group">
+                        <img src="portfolio/oreo.webp" alt="Oreo Campaign" class="w-full h-auto object-cover">
+                        <div class="portfolio-overlay">
+                            <div class="text-center">
+                                <h3 class="text-2xl font-bold mb-2">Oreo</h3>
+                                <p class="text-sm">Brand Campaign</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Portfolio Item 6 -->
+                <div class="masonry-item">
+                    <div class="portfolio-item group">
+                        <img src="portfolio/LoyolaMedicine.webp" alt="Loyola Medicine" class="w-full h-auto object-cover">
+                        <div class="portfolio-overlay">
+                            <div class="text-center">
+                                <h3 class="text-2xl font-bold mb-2">Loyola Medicine</h3>
+                                <p class="text-sm">Medical Website</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Portfolio Item 7 -->
+                <div class="masonry-item">
+                    <div class="portfolio-item group">
+                        <img src="portfolio/Illinois-SBC-Tablet.webp" alt="Illinois SBC Tablet" class="w-full h-auto object-cover">
+                        <div class="portfolio-overlay">
+                            <div class="text-center">
+                                <h3 class="text-2xl font-bold mb-2">Illinois SBC</h3>
+                                <p class="text-sm">Tablet Experience</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Portfolio Item 8 -->
+                <div class="masonry-item">
+                    <div class="portfolio-item group">
+                        <img src="portfolio/Pazzos.webp" alt="Pazzos Restaurant" class="w-full h-auto object-cover">
+                        <div class="portfolio-overlay">
+                            <div class="text-center">
+                                <h3 class="text-2xl font-bold mb-2">Pazzos</h3>
+                                <p class="text-sm">Restaurant Website</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Portfolio Item 9 -->
+                <div class="masonry-item">
+                    <div class="portfolio-item group">
+                        <img src="portfolio/RogersAndHollands.webp" alt="Rogers And Hollands" class="w-full h-auto object-cover">
+                        <div class="portfolio-overlay">
+                            <div class="text-center">
+                                <h3 class="text-2xl font-bold mb-2">Rogers & Hollands</h3>
+                                <p class="text-sm">Jewelry E-commerce</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Portfolio Item 10 -->
+                <div class="masonry-item">
+                    <div class="portfolio-item group">
+                        <img src="portfolio/PiesDescalzos.webp" alt="Pies Descalzos Foundation" class="w-full h-auto object-cover">
+                        <div class="portfolio-overlay">
+                            <div class="text-center">
+                                <h3 class="text-2xl font-bold mb-2">Pies Descalzos</h3>
+                                <p class="text-sm">Foundation Platform</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Optimized pixel reconstruction effect
+            function createPixelReconstruction() {
+                const container = document.getElementById('pixelContainer');
+                if (!container) return;
+                
+                // Performance optimizations
+                const gridSize = 40; // Larger tiles = fewer elements
+                const screenWidth = window.innerWidth;
+                const screenHeight = window.innerHeight;
+                const cols = Math.ceil(screenWidth / gridSize);
+                const rows = Math.ceil(screenHeight / gridSize);
+                const totalShards = cols * rows;
+                
+                // Limit maximum shards for performance
+                if (totalShards > 800) {
+                    // Use CSS-only fallback for very large screens
+                    container.style.background = `url('hero.webp') center center/cover no-repeat`;
+                    container.style.opacity = '0';
+                    setTimeout(() => {
+                        container.style.opacity = '1';
+                        container.style.transition = 'opacity 2s ease-out';
+                    }, 0);
+                    return;
+                }
+                
+                console.log('Creating optimized pixel grid:', cols, 'x', rows);
+                
+                // Use DocumentFragment for efficient DOM manipulation
+                const fragment = document.createDocumentFragment();
+                const shards = [];
+                const centerX = screenWidth / 2;
+                const centerY = screenHeight / 2;
+                
+                // Create pixel shards efficiently
+                for (let row = 0; row < rows; row++) {
+                    for (let col = 0; col < cols; col++) {
+                        const shard = document.createElement('div');
+                        shard.className = 'pixel-shard';
+                        
+                        // Set styles efficiently
+                        const left = col * gridSize;
+                        const top = row * gridSize;
+                        shard.style.cssText = `
+                            width: ${gridSize}px;
+                            height: ${gridSize}px;
+                            left: ${left}px;
+                            top: ${top}px;
+                            background-size: ${screenWidth}px ${screenHeight}px;
+                            background-position: -${left}px -${top}px;
+                        `;
+                        
+                        // Calculate distance for sorting
+                        const shardX = left + gridSize / 2;
+                        const shardY = top + gridSize / 2;
+                        const distance = Math.sqrt((shardX - centerX) ** 2 + (shardY - centerY) ** 2);
+                        
+                        shards.push({ element: shard, distance: distance });
+                        fragment.appendChild(shard);
+                    }
+                }
+                
+                // Single DOM append
+                container.appendChild(fragment);
+                console.log('Optimized pixel shards created:', shards.length);
+                
+                // Start pixel animation along with hero text (0.2s from page load)
+                setTimeout(() => {
+                    console.log('🚀 Starting pixel assembly at', Date.now());
+                    
+                    // Sort shards by distance from center (closest first)
+                    shards.sort((a, b) => a.distance - b.distance);
+                    
+                    // Use requestAnimationFrame for smooth animation
+                    let animationIndex = 0;
+                    const shardsPerFrame = 8;
+                    const frameDelay = 16;
+                    const pixelAnimationDuration = 800; // Each pixel animates for 0.8s
+                    
+                    function animateNextBatch() {
+                        const endIndex = Math.min(animationIndex + shardsPerFrame, shards.length);
+                        
+                        for (let i = animationIndex; i < endIndex; i++) {
+                            shards[i].element.classList.add('animate');
+                        }
+                        
+                        animationIndex = endIndex;
+                        
+                        if (animationIndex < shards.length) {
+                            setTimeout(() => requestAnimationFrame(animateNextBatch), frameDelay);
+                        }
+                    }
+                    
+                    // Start pixel animation
+                    requestAnimationFrame(animateNextBatch);
+                    
+                    // Calculate when ALL pixels will finish animating
+                    const totalPixels = shards.length;
+                    
+                    // Time for all batches to start = (totalPixels / shardsPerFrame) * frameDelay
+                    const lastBatchStartTime = Math.floor(totalPixels / shardsPerFrame) * frameDelay;
+                    
+                    // Total time = time for last batch to start + individual pixel animation duration
+                    const totalAnimationTime = lastBatchStartTime + pixelAnimationDuration;
+                    
+                    console.log(`📊 Animation calc: ${totalPixels} pixels, ${Math.floor(totalPixels/shardsPerFrame)} batches`);
+                    console.log(`📊 Last batch starts at: ${lastBatchStartTime}ms`);
+                    console.log(`📊 Total animation time: ${totalAnimationTime}ms`);
+                    
+                    // Create clean background layer before hiding pixels
+                    setTimeout(() => {
+                        console.log('🖼️ Creating clean background layer');
+                        
+                        // Create permanent background layer with EXACT same properties as pixel shards
+                        const cleanBackground = document.createElement('div');
+                        cleanBackground.style.cssText = `
+                            position: absolute;
+                            inset: 0;
+                            background-image: url('hero.jpg');
+                            background-size: ${screenWidth}px ${screenHeight}px;
+                            background-position: 0px 0px;
+                            background-repeat: no-repeat;
+                            z-index: 1;
+                            opacity: 0;
+                            transition: opacity 0.3s ease;
+                        `;
+                        container.parentNode.insertBefore(cleanBackground, container);
+                        
+                        // Fade in clean background smoothly
+                        setTimeout(() => {
+                            cleanBackground.style.opacity = '1';
+                        }, 50);
+                        
+                        // Then fade out pixel container for seamless transition
+                        setTimeout(() => {
+                            console.log('🎯 Fading out pixel cuts at', Date.now());
+                            container.style.opacity = '0';
+                            container.style.transition = 'opacity 0.3s ease';
+                            
+                            // Completely hide after fade
+                            setTimeout(() => {
+                                container.style.display = 'none';
+                            }, 300);
+                        }, 200);
+                        
+                    }, totalAnimationTime + 500); // Extra 500ms buffer for complete animation
+                    
+                }, 200);
+                
+                // Animate other elements along with pixel effect
+                setTimeout(() => {
+                    console.log('🚀 Animating UI elements with pixel effect');
+                    
+                    // Glow
+                    const glow = document.querySelector('.hero-glow');
+                    if (glow) {
+                        glow.style.opacity = '1';
+                        glow.style.transition = 'opacity 0.8s ease';
+                    }
+                    
+                    // Background overlay
+                    const bg = document.querySelector('.hero-bg');
+                    if (bg) {
+                        bg.style.opacity = '1';
+                        bg.style.transition = 'opacity 1s ease';
+                    }
+                    
+                    // Divider
+                    const divider = document.querySelector('.hero-text .line:nth-child(3)');
+                    if (divider) {
+                        divider.style.opacity = '1';
+                        divider.style.transform = 'translateY(0)';
+                        divider.style.transition = 'all 0.8s ease';
+                    }
+                    
+                    // Description
+                    const desc = document.querySelector('.hero-text .line:nth-child(4)');
+                    if (desc) {
+                        desc.style.opacity = '1';
+                        desc.style.transform = 'translateY(0)';
+                        desc.style.transition = 'all 0.8s ease';
+                    }
+                    
+                    // Button
+                    const button = document.querySelector('.hero-text .line:nth-child(5)');
+                    if (button) {
+                        button.style.opacity = '1';
+                        button.style.transform = 'translateY(0)';
+                        button.style.transition = 'all 0.8s ease';
+                    }
+                    
+                    // Navbar
+                    const nav = document.querySelector('.nav-reveal');
+                    if (nav) {
+                        nav.style.opacity = '1';
+                        nav.style.transform = 'translateY(0)';
+                        nav.style.transition = 'all 0.8s ease';
+                    }
+                    
+                }, 400); // UI elements appear 200ms after pixel effect starts
+            }
+            
+            // Initialize pixel reconstruction
+            createPixelReconstruction();
+            // Enhanced smooth scrolling for portfolio items
+            const portfolioItems = document.querySelectorAll('.masonry-item');
+            
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 100);
+                    }
+                });
+            }, observerOptions);
+            
+            portfolioItems.forEach(item => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(40px)';
+                item.style.transition = 'all 0.6s ease';
+                observer.observe(item);
+            });
+
+            // Mobile menu toggle
+            const mobileMenuBtn = document.querySelector('button');
+            const mobileMenu = document.createElement('div');
+            mobileMenu.className = 'md:hidden absolute top-full left-0 right-0 bg-black/95 backdrop-blur-sm py-6 px-8 space-y-4';
+            mobileMenu.innerHTML = `
+                <a href="#" class="block text-white hover:text-red-500 py-2">Work</a>
+                <a href="#" class="block text-white hover:text-red-500 py-2">Services</a>
+                <a href="#" class="block text-white hover:text-red-500 py-2">About</a>
+                <a href="#" class="block text-white hover:text-red-500 py-2">Contact</a>
+            `;
+            mobileMenu.style.display = 'none';
+            
+            mobileMenuBtn.parentNode.appendChild(mobileMenu);
+            
+            mobileMenuBtn.addEventListener('click', () => {
+                if (mobileMenu.style.display === 'none') {
+                    mobileMenu.style.display = 'block';
+                } else {
+                    mobileMenu.style.display = 'none';
+                }
+            });
+
+            // Modern navbar scroll effect and parallax
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const nav = document.querySelector('nav');
+                const heroText = document.querySelector('.hero-text');
+                
+                // Navbar morphing effect
+                if (scrolled > 100) {
+                    nav.classList.add('nav-scrolled');
+                } else {
+                    nav.classList.remove('nav-scrolled');
+                }
+                
+                // Parallax effect for hero section
+                const rate = scrolled * -0.5;
+                if (heroText) {
+                    heroText.style.transform = `translateY(${rate}px)`;
+                }
+            });
+
+            // Add smooth hover effects to portfolio items
+            portfolioItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.02) translateZ(0)';
+                    this.style.boxShadow = '0 25px 50px -12px rgba(239, 68, 68, 0.25)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1) translateZ(0)';
+                    this.style.boxShadow = 'none';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
