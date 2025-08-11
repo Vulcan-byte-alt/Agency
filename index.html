@@ -23,7 +23,7 @@
         .hero-bg {
             position: absolute;
             inset: 0;
-            background: rgba(0, 0, 0, 0);
+            background: rgba(0, 0, 0, 0.211);
             opacity: 0;
             z-index: 3;
         }
@@ -177,7 +177,6 @@
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 20px;
             margin: 1rem 2rem;
             padding: 0.75rem 2rem !important;
@@ -281,26 +280,74 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             font-weight: 900;
+            position: relative;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .logo::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%);
+            border-radius: 12px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .logo:hover::before {
+            opacity: 1;
         }
 
         .nav-link {
             position: relative;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 500;
+            letter-spacing: 0.025em;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(220, 38, 38, 0.15) 100%);
+            border-radius: 25px;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+
+        .nav-link:hover::before {
+            opacity: 1;
+            transform: scale(1);
         }
 
         .nav-link::after {
             content: '';
             position: absolute;
-            bottom: -4px;
-            left: 0;
+            bottom: 0.25rem;
+            left: 50%;
             width: 0;
             height: 2px;
             background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            transform: translateX(-50%);
             transition: width 0.3s ease;
+            border-radius: 1px;
         }
 
         .nav-link:hover::after {
-            width: 100%;
+            width: 60%;
+        }
+
+        .nav-link:hover {
+            color: #ffffff !important;
+            transform: translateY(-2px);
         }
 
         .red-accent {
@@ -318,20 +365,25 @@
 <body class="bg-black text-white overflow-x-hidden">
     <!-- Navigation -->
     <nav class="nav-reveal fixed top-0 left-0 right-0 z-50 px-8 py-6">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="logo text-2xl font-black tracking-tight">
+        <div class="max-w-7xl mx-auto flex items-center">
+            <div class="logo text-2xl font-black tracking-tight cursor-pointer">
                 AGENCY
             </div>
-            <div class="hidden md:flex space-x-8">
-                <a href="#" class="nav-link text-white hover:text-red-500">Work</a>
-                <a href="#" class="nav-link text-white hover:text-red-500">Services</a>
-                <a href="#" class="nav-link text-white hover:text-red-500">About</a>
-                <a href="#" class="nav-link text-white hover:text-red-500">Contact</a>
+            <div class="hidden md:flex items-center space-x-2 flex-1 justify-center">
+                <a href="#" class="nav-link text-white">Work</a>
+                <a href="#" class="nav-link text-white">Services</a>
+                <a href="#" class="nav-link text-white">About</a>
+                <a href="#" class="nav-link text-white">Contact</a>
             </div>
-            <button class="md:hidden w-6 h-6 flex flex-col justify-center items-center space-y-1">
-                <span class="w-full h-0.5 bg-white transition-all"></span>
-                <span class="w-full h-0.5 bg-white transition-all"></span>
-                <span class="w-full h-0.5 bg-white transition-all"></span>
+            <div class="hidden md:flex items-center">
+                <button class="px-6 py-2.5 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-full font-medium hover:from-red-600 hover:to-red-700 transition-all duration-300 shadow-lg hover:shadow-red-500/25 hover:scale-105 transform">
+                    Get Started
+                </button>
+            </div>
+            <button class="md:hidden w-10 h-10 flex flex-col justify-center items-center space-y-1 rounded-xl bg-gradient-to-br from-red-500/20 to-red-600/20 backdrop-blur-sm border border-red-500/30 hover:from-red-500/30 hover:to-red-600/30 transition-all duration-300">
+                <span class="w-5 h-0.5 bg-white rounded-full transition-all shadow-sm"></span>
+                <span class="w-5 h-0.5 bg-white rounded-full transition-all shadow-sm"></span>
+                <span class="w-5 h-0.5 bg-white rounded-full transition-all shadow-sm"></span>
             </button>
         </div>
     </nav>
