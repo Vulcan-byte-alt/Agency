@@ -5,292 +5,219 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Digital Agency - Big Agency Work. Small Agency Energy.</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- GSAP for sophisticated 3D animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600;700;800;900&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+        /* UPGRADED: Premium Syne display font for headlines */
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap');
         
         * {
             font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
+        body, html {
+            overflow: hidden; /* CRITICAL: Prevent all scrolling */
+            height: 100vh;
+            background: #000;
+        }
+
+        /* CORE LAYOUT SYSTEM - Fixed Height, No Scrolling */
         .hero-container {
             background: #000;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: row;
+            position: relative;
             overflow: hidden;
+        }
+
+        /* LEFT COLUMN - Content Area (Fixed sizing to prevent overflow) */
+        .hero-content-left {
+            width: 50%;
+            height: 100vh;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            text-align: left;
             position: relative;
+            z-index: 30;
+            padding-left: clamp(2rem, 5vw, 4rem);
+            padding-right: 2rem;
+            padding-bottom: 3rem;
         }
 
-        .hero-bg {
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.211);
-            opacity: 0;
-            z-index: 3;
-        }
-
-        .hero-text {
-            opacity: 0;
-            transform: translateY(30px);
+        /* RIGHT COLUMN - 3D Perspective Visual Area */
+        .hero-visual-right {
+            width: 50%;
+            height: 100vh;
             position: relative;
-            z-index: 10;
+            overflow: hidden;
+            /* CRITICAL: 3D Perspective for slanting footpath effect */
+            perspective: 1500px;
+            perspective-origin: left center;
         }
 
-        .hero-text .word {
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(20px);
-            /* Disable automatic animations - will be handled by JavaScript */
-        }
-
-        /* Disable automatic word animation delays */
-        .hero-text .line:nth-child(1) .word:nth-child(1),
-        .hero-text .line:nth-child(1) .word:nth-child(2),
-        .hero-text .line:nth-child(2) .word:nth-child(1),
-        .hero-text .line:nth-child(2) .word:nth-child(2) {
-            animation: none;
-        }
-        
-        .hero-text .line:nth-child(3),
-        .hero-text .line:nth-child(4),
-        .hero-text .line:nth-child(5) {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        @keyframes wordReveal {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes lineReveal {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
+        /* RESTORED: Essential Atmospheric Red Glow */
         .hero-glow {
             position: absolute;
             top: 50%;
-            left: 50%;
-            width: 800px;
-            height: 500px;
+            left: 40%;
+            width: 1000px;
+            height: 600px;
             background: 
-                radial-gradient(ellipse at center, rgba(239, 68, 68, 0.4) 0%, rgba(239, 68, 68, 0.25) 20%, rgba(220, 38, 38, 0.15) 40%, rgba(185, 28, 28, 0.08) 60%, transparent 80%),
-                radial-gradient(ellipse at center, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+                radial-gradient(ellipse at center, rgba(239, 68, 68, 0.6) 0%, rgba(239, 68, 68, 0.4) 20%, rgba(220, 38, 38, 0.25) 40%, rgba(185, 28, 28, 0.15) 60%, transparent 80%),
+                radial-gradient(ellipse at center, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
             transform: translate(-50%, -50%);
-            opacity: 0;
-            z-index: 5;
+            z-index: 10;
             pointer-events: none;
-            filter: blur(30px);
+            filter: blur(40px);
             box-shadow: 
-                inset 0 0 100px rgba(239, 68, 68, 0.2),
-                0 0 150px rgba(239, 68, 68, 0.3),
-                0 0 200px rgba(239, 68, 68, 0.1);
+                inset 0 0 120px rgba(239, 68, 68, 0.3),
+                0 0 200px rgba(239, 68, 68, 0.4),
+                0 0 300px rgba(239, 68, 68, 0.2);
         }
 
-        .hero-glow::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 400px;
-            height: 250px;
-            background: radial-gradient(ellipse, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
-            transform: translate(-50%, -60%);
-            filter: blur(15px);
+        /* PREMIUM TYPOGRAPHY - Syne Display Font */
+        .hero-text-content {
+            opacity: 1;
+            transform: none;
         }
 
-        @keyframes glowReveal {
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes textReveal {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes lineReveal {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .pixel-reconstruction {
-            position: absolute;
-            inset: 0;
-            z-index: 2;
-            overflow: hidden;
-        }
-
-        .pixel-shard {
-            position: absolute;
-            background-image: url('hero.webp');
-            background-repeat: no-repeat;
+        .hero-text-content .char {
+            display: inline-block;
             opacity: 0;
-            transform: scale(0) rotate(45deg);
-            filter: blur(5px);
-            transition: none;
+            transform: rotateX(-90deg) translateY(20px);
+            transform-origin: center bottom;
         }
 
-        .pixel-shard.animate {
-            animation: pixelAssemble 0.8s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+        .hero-text-content .word {
+            display: inline-block;
         }
 
-        @keyframes pixelAssemble {
-            0% {
-                opacity: 0;
-                transform: scale(0.3) rotate(20deg);
-                filter: blur(3px);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1.05) rotate(5deg);
-                filter: blur(1px);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1) rotate(0deg);
-                filter: blur(0);
-            }
+        .hero-text-content .line {
+            opacity: 1;
+            transform: none;
         }
 
-        @keyframes backgroundReveal {
-            to {
-                opacity: 1;
-            }
+        /* TYPOGRAPHY SIZING - Responsive clamp() to prevent overflow */
+        .hero-title {
+            font-family: 'Syne', sans-serif !important;
+            font-size: clamp(2.5rem, 5vw, 4rem) !important;
+            line-height: 1.2 !important;
+            font-weight: 700 !important;
+            letter-spacing: -0.02em !important;
+            margin-bottom: clamp(1rem, 2vw, 1.5rem) !important;
         }
 
-        .nav-reveal {
-            opacity: 0;
-            transform: translateY(-20px);
-            transition: all 0.3s ease;
-            background: rgba(0, 0, 0, 0.051);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        .hero-subtitle {
+            font-family: 'Syne', sans-serif !important;
+            font-size: clamp(2.5rem, 5vw, 4rem) !important;
+            line-height: 1.2 !important;
+            font-weight: 700 !important;
+            letter-spacing: -0.02em !important;
+            margin-bottom: clamp(2rem, 4vw, 3rem) !important;
         }
 
-        .nav-scrolled {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 20px;
-            margin: 1rem 2rem;
-            padding: 0.75rem 2rem !important;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        .hero-description {
+            font-size: clamp(0.75rem, 1.2vw, 0.9rem) !important;
+            margin-bottom: clamp(1.5rem, 3vw, 2rem) !important;
+            max-width: 28rem;
         }
 
-        @keyframes navReveal {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .hero-divider {
+            width: clamp(4rem, 8vw, 6rem);
+            height: 1px;
+            margin-bottom: clamp(1.5rem, 3vw, 2rem);
         }
 
-        .portfolio-reveal {
-            opacity: 0;
-            transform: translateY(40px);
-        }
-        
-        .portfolio-reveal.show {
-            opacity: 1 !important;
-            transform: translateY(0) !important;
-        }
-
-        @keyframes portfolioReveal {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
+        /* 3D SLANTING MASONRY SYSTEM */
         .modern-masonry {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             display: flex;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 1rem;
-            height: 100vh;
-            overflow: hidden;
             gap: 20px;
+            padding: 2rem;
+            overflow: hidden;
+            /* CRITICAL: 3D Transform for slanting footpath effect */
+            transform: rotateY(-30deg) rotateX(15deg) scale(0.9);
+            transform-origin: left center;
+            transform-style: preserve-3d;
+            /* Initial compressed state for animation */
+            opacity: 0;
             
-            /* Smooth fade for top & bottom */
+            /* Smooth fade for edges */
             mask-image: linear-gradient(to bottom, 
                 transparent 0%, 
-                black 5%, 
-                black 95%, 
-                transparent 100%);
+                black 10%, 
+                black 90%, 
+                transparent 100%
+            );
             -webkit-mask-image: linear-gradient(to bottom, 
                 transparent 0%, 
-                black 5%, 
-                black 95%, 
-                transparent 100%);
+                black 10%, 
+                black 90%, 
+                transparent 100%
+            );
         }
 
+        /* Enhanced 3D masonry items */
         .masonry-column {
             flex: 1;
             position: relative;
             overflow: hidden;
+            transform-style: preserve-3d;
         }
 
         .masonry-item {
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border-radius: 16px;
+            overflow: visible;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: pointer;
             position: relative;
             margin-bottom: 20px;
             opacity: 1;
+            transform-style: preserve-3d;
             
-            /* The new "Smoked Glass" container effect */
-            background: rgba(30, 30, 30, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: inset 0 0 1px 1px rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            /* Enhanced glass container effect with 3D depth */
+            background: rgba(20, 20, 20, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                inset 0 0 1px 1px rgba(255, 255, 255, 0.05),
+                0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: 8px;
         }
-
 
         .masonry-item:hover {
-            transform: translateY(-8px) scale(1.02);
+            transform: translateZ(20px) translateY(-8px) scale(1.02);
             z-index: 10;
-            /* The soft white glow */
-            box-shadow: 0 25px 50px -12px rgba(255, 255, 255, 0.1);
-        }
-
-
-        @media (max-width: 1200px) {
-            .modern-masonry {
-                padding: 0 1rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .modern-masonry {
-                padding: 0 0.5rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .modern-masonry {
-                padding: 0 0.5rem;
-            }
+            box-shadow: 
+                0 20px 40px -8px rgba(255, 255, 255, 0.15),
+                0 8px 25px -8px rgba(239, 68, 68, 0.2),
+                inset 0 0 1px 1px rgba(255, 255, 255, 0.15);
+            border-color: rgba(239, 68, 68, 0.4);
         }
 
         .portfolio-item {
             position: relative;
             width: 100%;
-            height: calc(100% - 4px); /* Account for border padding */
-            border-radius: 12px;
+            height: 100%;
+            border-radius: 16px;
             overflow: hidden;
             background: #1a1a1a;
+            transform-style: preserve-3d;
         }
 
         .portfolio-item img {
@@ -298,78 +225,56 @@
             height: 100%;
             object-fit: cover;
             object-position: center;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             display: block;
+            border-radius: 12px;
         }
 
-        /* Elevator-style infinite column scrolling */
-        .column-container {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            overflow: hidden;
+        .masonry-item:hover .portfolio-item img {
+            transform: scale(1.06);
+            filter: brightness(0.85) contrast(1.15) saturate(1.1);
         }
 
+        /* Elevator animation system with 3D enhancement */
         .column-track {
             position: absolute;
             width: 100%;
             animation-iteration-count: infinite;
             animation-timing-function: linear;
-            margin: 0;
-            padding: 0;
+            animation-play-state: running;
+            transform-style: preserve-3d;
         }
 
         .column-track.elevator-up {
-            animation-name: elevatorUp;
-            animation-duration: 90s;
+            animation-name: elevatorUp3D;
+            animation-duration: 60s;
         }
 
         .column-track.elevator-down {
-            animation-name: elevatorDown;
-            animation-duration: 105s;
+            animation-name: elevatorDown3D;
+            animation-duration: 80s;
         }
 
-        @keyframes elevatorUp {
-            0% { transform: translateY(0%); }
-            100% { transform: translateY(-50%); }
+        .masonry-column:hover .column-track {
+            animation-play-state: paused;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        @keyframes elevatorDown {
-            0% { transform: translateY(-50%); }
-            100% { transform: translateY(0%); }
+        @keyframes elevatorUp3D {
+            0% { transform: translateY(0%) translateZ(0px); }
+            100% { transform: translateY(-33.333%) translateZ(-10px); }
+        }
+
+        @keyframes elevatorDown3D {
+            0% { transform: translateY(-33.333%) translateZ(-10px); }
+            100% { transform: translateY(0%) translateZ(0px); }
         }
 
         .column-item {
-            margin-bottom: 12px;
+            margin-bottom: 15px;
         }
 
-        .portfolio-item::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 12px;
-            z-index: 10;
-            opacity: 0;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-
-            /* The Glass Effect */
-            background: rgba(20, 20, 20, 0.25);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
-        }
-
-        .portfolio-item:hover::before {
-            opacity: 1;
-        }
-
-        .portfolio-item:hover img,
-        .portfolio-item:hover .slide-image {
-            transform: scale(1.05);
-            filter: brightness(0.7) contrast(1.1);
-        }
-
+        /* Portfolio overlay effects with 3D depth */
         .portfolio-overlay {
             position: absolute;
             inset: 0;
@@ -378,16 +283,19 @@
             align-items: center;
             justify-content: center;
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(30px) scale(0.9) translateZ(-10px);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             z-index: 20;
             text-align: center;
             padding: 2rem;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
         }
 
         .portfolio-item:hover .portfolio-overlay {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1) translateZ(0px);
         }
 
         .portfolio-overlay h3 {
@@ -397,11 +305,11 @@
             color: #ffffff;
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
             letter-spacing: 0.5px;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Syne', sans-serif;
         }
 
         .portfolio-overlay p {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: rgba(255, 255, 255, 0.9);
             font-weight: 400;
             text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
@@ -409,99 +317,29 @@
             line-height: 1.4;
         }
 
-        /* Company logo hover styles */
-        .logo-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 100%;
-        }
-
-        .company-logo {
-            max-width: 120px;
-            max-height: 60px;
-            width: auto;
-            height: auto;
-            filter: brightness(0) invert(1); /* Make logos white */
-            transition: all 0.3s ease;
-            object-fit: contain;
-        }
-
-        .company-logo:hover {
-            transform: scale(1.1);
-            filter: brightness(0) invert(1) drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
-        }
-
-        .fallback-text {
-            text-align: center;
-        }
-
-        .fallback-text h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.75rem;
-            color: #ffffff;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-            letter-spacing: 0.5px;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .fallback-text p {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.9);
-            font-weight: 400;
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
-            letter-spacing: 0.3px;
-            line-height: 1.4;
-        }
-
-        /* Visit Site Button */
-        .visit-site-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 16px;
-            margin-top: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        /* NAVIGATION STYLES */
+        .nav-reveal {
+            opacity: 1;
+            transform: none;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 0.75rem;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            backdrop-filter: blur(10px);
-            transform: translateY(10px);
-            opacity: 0;
-            animation: buttonSlideUp 0.4s ease-out 0.2s forwards;
+            margin: 1rem 2rem;
+            padding: 0.75rem 2rem !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
-        @keyframes buttonSlideUp {
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+        .nav-scrolled {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 20px;
+            margin: 1rem 2rem;
+            padding: 0.75rem 2rem !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
-
-        .visit-site-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.4);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.1);
-        }
-
-        .visit-site-btn svg {
-            transition: transform 0.2s ease;
-        }
-
-        .visit-site-btn:hover svg {
-            transform: translate(2px, -2px);
-        }
-
 
         .logo {
             background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
@@ -513,13 +351,14 @@
             padding: 0.5rem 1rem;
             border-radius: 12px;
             transition: all 0.3s ease;
+            font-family: 'Syne', sans-serif;
         }
 
         .logo::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%);
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(220, 38, 38, 0.15) 100%);
             border-radius: 12px;
             opacity: 0;
             transition: opacity 0.3s ease;
@@ -544,7 +383,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(220, 38, 38, 0.15) 100%);
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(220, 38, 38, 0.2) 100%);
             border-radius: 25px;
             opacity: 0;
             transform: scale(0.8);
@@ -579,6 +418,52 @@
             transform: translateY(-2px);
         }
 
+        /* PREMIUM CTA BUTTON STYLES */
+        .magnetic-btn {
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .magnetic-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .magnetic-btn:hover .magnetic-bg {
+            opacity: 1;
+        }
+
+        .elegant-btn {
+            position: relative;
+            overflow: hidden;
+            font-size: clamp(0.7rem, 1vw, 0.8rem) !important;
+            padding: clamp(0.75rem, 1.5vw, 1rem) clamp(1.5rem, 3vw, 2rem) !important;
+        }
+
+        .elegant-fill {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.9), rgba(220, 38, 38, 0.9));
+            transform: scale-x-0);
+            transform-origin: left;
+            transition: transform 0.5s ease-out;
+        }
+
+        .elegant-btn:hover .elegant-fill {
+            transform: scale-x-1);
+        }
+
+        .elegant-btn:hover {
+            border-color: rgba(239, 68, 68, 0.8);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(239, 68, 68, 0.3);
+        }
+
         .red-accent {
             color: #ef4444;
         }
@@ -589,14 +474,39 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+
+        /* MOBILE RESPONSIVE ADJUSTMENTS */
+        @media (max-width: 1023px) {
+            .hero-container {
+                flex-direction: column;
+            }
+            
+            .hero-content-left, .hero-visual-right {
+                width: 100%;
+                height: 50vh;
+            }
+            
+            .hero-visual-right {
+                perspective: 1000px;
+            }
+            
+            .modern-masonry {
+                transform: rotateY(-20deg) rotateX(10deg) scale(0.95);
+                padding: 1rem;
+            }
+            
+            .hero-title, .hero-subtitle {
+                font-size: clamp(2rem, 6vw, 3rem) !important;
+            }
+        }
     </style>
 </head>
-<body class="bg-black text-white overflow-x-hidden">
+<body class="bg-black text-white">
     <!-- Navigation -->
-    <nav class="nav-reveal fixed top-0 left-0 right-0 z-50 px-8 py-6">
+    <nav class="nav-reveal fixed top-0 left-0 right-0 z-50">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="logo text-2xl font-black tracking-tight cursor-pointer">
-                AGENCY
+                COMMUNICATOR
             </div>
             <div class="hidden md:flex items-center space-x-2 flex-1 justify-center">
                 <a href="#" class="nav-link text-white">Work</a>
@@ -605,8 +515,10 @@
                 <a href="#" class="nav-link text-white">Contact</a>
             </div>
             <div class="hidden md:flex items-center">
-                <button class="px-6 py-2.5 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-full font-medium hover:from-red-600 hover:to-red-700 transition-all duration-300 shadow-lg hover:shadow-red-500/25 hover:scale-105 transform">
-                    Get Started
+                <!-- Magnetic hover effect for primary CTA -->
+                <button id="magneticBtn" class="magnetic-btn px-6 py-2.5 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-full font-medium transition-all duration-300 shadow-lg relative overflow-hidden">
+                    <span class="relative z-10">Get Started</span>
+                    <div class="magnetic-bg"></div>
                 </button>
             </div>
             <button id="mobileMenuBtn" class="md:hidden w-10 h-10 flex flex-col justify-center items-center space-y-1 rounded-xl bg-gradient-to-br from-red-500/20 to-red-600/20 backdrop-blur-sm border border-red-500/30">
@@ -617,7 +529,7 @@
         </div>
     </nav>
 
-    <!-- Mobile Menu (moved outside nav for proper fixed positioning) -->
+    <!-- Mobile Menu -->
     <div id="mobileMenu" class="md:hidden fixed inset-0 bg-black/50 backdrop-blur-xl z-[100] invisible opacity-0 transition-all duration-300 ease-in-out">
         <div class="w-full h-full flex flex-col items-center justify-center relative">
             <button id="mobileMenuClose" class="absolute top-8 right-8 w-10 h-10 flex justify-center items-center rounded-xl bg-gradient-to-br from-red-500/20 to-red-600/20 backdrop-blur-sm border border-red-500/30">
@@ -637,197 +549,52 @@
         </div>
     </div>
 
-    <!-- Hero Section -->
-    <section class="hero-container min-h-screen relative flex items-center justify-center">
-        <div class="hero-bg"></div>
-        <div class="pixel-reconstruction" id="pixelContainer"></div>
-        
+    <!-- REDESIGNED: Premium Hero Section with 3D Perspective -->
+    <section class="hero-container">
+        <!-- Essential Atmospheric Red Glow -->
         <div class="hero-glow"></div>
-        <div class="hero-text relative z-10 text-center px-8 max-w-6xl mx-auto">
-            <!-- Premium Hero Text -->
-            <div class="line mb-6">
-                <h1 class="text-4xl md:text-6xl lg:text-7xl font-light tracking-tight text-white" style="font-family: 'Montserrat', sans-serif; line-height: 1.1; font-weight: 200; letter-spacing: -0.01em;">
-                    <span class="word">Big Agency</span> <span class="word gradient-text" style="font-weight: 600;">Work.</span>
-                </h1>
-            </div>
-            <div class="line mb-10">
-                <h2 class="text-4xl md:text-6xl lg:text-7xl font-light tracking-tight text-white" style="font-family: 'Montserrat', sans-serif; line-height: 1.15; font-weight: 200; letter-spacing: -0.01em; padding-bottom: 0.25em;">
-                    <span class="word">Small Agency</span> <span class="word gradient-text" style="font-weight: 600;">Energy.</span>
-                </h2>
-            </div>
-            
-            <!-- Elegant Divider -->
-            <div class="line mb-8">
-                <div class="w-24 h-px bg-gradient-to-r from-transparent via-red-500 to-transparent mx-auto opacity-60"></div>
-            </div>
-            
-            <!-- Premium Description -->
-            <div class="line mb-12">
-                <p class="text-sm md:text-base text-gray-400 font-light max-w-lg mx-auto uppercase tracking-widest opacity-80" style="letter-spacing: 0.15em;">
-                    Strategy • Design • Development • Growth
-                </p>
-            </div>
-            
-            <!-- Refined Button -->
-            <div class="line">
-                <button class="group relative px-8 py-4 bg-transparent border border-red-500/30 text-white font-light text-sm uppercase tracking-widest rounded-sm hover:bg-red-500/10 transition-all duration-500 overflow-hidden">
-                    <span class="relative z-10">View Our Work</span>
-                    <div class="absolute inset-0 bg-gradient-to-r from-red-500/0 via-red-500/5 to-red-500/0 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                </button>
-            </div>
-        </div>
-
-        <!-- Scroll Indicator -->
-        <div class="portfolio-reveal absolute bottom-8 left-1/2 transform -translate-x-1/2">
-            <div class="w-6 h-10 border-2 border-red-500 rounded-full flex justify-center">
-                <div class="w-1 h-3 bg-red-500 rounded-full mt-2 animate-bounce"></div>
+        
+        <!-- LEFT COLUMN: Premium Content Area -->
+        <div class="hero-content-left">
+            <div class="hero-text-content">
+                <!-- Premium Hero Text with Syne Typography -->
+                <div class="line">
+                    <h1 class="hero-title text-white">
+                        <span class="word">Big Agency</span> <span class="word gradient-text">Work.</span>
+                    </h1>
+                </div>
+                <div class="line">
+                    <h2 class="hero-subtitle text-white">
+                        <span class="word">Small Agency</span> <span class="word gradient-text">Energy.</span>
+                    </h2>
+                </div>
+                
+                <!-- Elegant Divider -->
+                <div class="line">
+                    <div class="hero-divider bg-gradient-to-r from-transparent via-red-500 to-transparent opacity-60"></div>
+                </div>
+                
+                <!-- Premium Description -->
+                <div class="line">
+                    <p class="hero-description text-gray-400 font-light uppercase tracking-widest opacity-80" style="letter-spacing: 0.15em;">
+                        Strategy • Design • Development • Growth
+                    </p>
+                </div>
+                
+                <!-- Refined Button -->
+                <div class="line">
+                    <button class="elegant-btn group relative bg-transparent border border-red-500/30 text-white font-light uppercase tracking-widest rounded-sm transition-all duration-500 overflow-hidden">
+                        <span class="relative z-10">View Our Work</span>
+                        <div class="elegant-fill"></div>
+                    </button>
+                </div>
             </div>
         </div>
-    </section>
 
-    <!-- Portfolio Section -->
-    <section class="portfolio-reveal py-24 px-8 relative z-10">
-        <div class="max-w-7xl mx-auto">
-<div class="text-center mb-24"> <span class="block text-sm font-light text-red-500/80 uppercase tracking-widest mb-8"
-        style="font-family: 'Montserrat', sans-serif;">
-        Selected Works
-    </span>
-
-    <h2 class="text-5xl md:text-7xl lg:text-8xl font-extralight text-white leading-tight"
-        style="font-family: 'Montserrat', sans-serif; letter-spacing: -0.02em;">
-        <span>Our </span>
-        <span class="gradient-text relative" style="font-weight: 700;">Portfolio
-            <div class="absolute -bottom-3 left-0 right-0 h-1.5 bg-gradient-to-r from-red-500 to-red-600 rounded-full transform scale-x-0"
-                style="animation: underline-expand 1.5s ease-out 2s forwards;"></div>
-        </span>
-    </h2>
-
-    <div class="w-20 h-px bg-gradient-to-r from-transparent via-red-500 to-transparent mx-auto my-12 opacity-50"></div>
-
-    <p class="text-base md:text-lg text-gray-400 max-w-xl mx-auto font-light leading-relaxed"
-        style="font-family: 'Inter', sans-serif;">
-        Crafting digital experiences that drive measurable results. Every project below tells a story of innovation and
-        partnership.
-    </p>
-
-</div>
-            
-            <style>
-                @keyframes underline-expand {
-                    to { transform: scale-x-1; }
-                }
-            </style>
-            
-            <div class="modern-masonry">
-                <!-- Portfolio Item 1 - Blue Border -->
-                <div class="masonry-item">
-                    <div class="portfolio-item">
-                        <img src="portfolio/Illinois-HCOM.webp" alt="Illinois Health Communication">
-                        <div class="portfolio-overlay">
-                            <h3>Illinois HCOM</h3>
-                            <p>Healthcare Education Platform</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Portfolio Item 2 - Red Border -->
-                <div class="masonry-item">
-                    <div class="portfolio-item">
-                        <img src="portfolio/Optum.webp" alt="Optum Campaign">
-                        <div class="portfolio-overlay">
-                            <h3>Optum</h3>
-                            <p>Healthcare Marketing Campaign</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Portfolio Item 3 - Green Border -->
-                <div class="masonry-item">
-                    <div class="portfolio-item">
-                        <img src="portfolio/Illinois-SBC-Phone.webp" alt="Illinois SBC Mobile">
-                        <div class="portfolio-overlay">
-                            <h3>Illinois SBC</h3>
-                            <p>Mobile Experience</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Portfolio Item 4 - Orange Border -->
-                <div class="masonry-item">
-                    <div class="portfolio-item">
-                        <img src="portfolio/Shakira.webp" alt="Shakira Foundation">
-                        <div class="portfolio-overlay">
-                            <h3>Pies Descalzos</h3>
-                            <p>Non-Profit Foundation</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Portfolio Item 5 - Purple Border -->
-                <div class="masonry-item">
-                    <div class="portfolio-item">
-                        <img src="portfolio/oreo.webp" alt="Oreo Campaign">
-                        <div class="portfolio-overlay">
-                            <h3>Oreo</h3>
-                            <p>Brand Campaign</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Portfolio Item 6 - Cyan Border -->
-                <div class="masonry-item">
-                    <div class="portfolio-item">
-                        <img src="portfolio/LoyolaMedicine.webp" alt="Loyola Medicine">
-                        <div class="portfolio-overlay">
-                            <h3>Loyola Medicine</h3>
-                            <p>Medical Website</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Portfolio Item 7 - Orange Border -->
-                <div class="masonry-item">
-                    <div class="portfolio-item">
-                        <img src="portfolio/Illinois-SBC-Tablet.webp" alt="Illinois SBC Tablet">
-                        <div class="portfolio-overlay">
-                            <h3>Illinois SBC</h3>
-                            <p>Tablet Experience</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Portfolio Item 8 - Lime Border -->
-                <div class="masonry-item">
-                    <div class="portfolio-item">
-                        <img src="portfolio/Pazzos.webp" alt="Pazzos Restaurant">
-                        <div class="portfolio-overlay">
-                            <h3>Pazzos</h3>
-                            <p>Restaurant Website</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Portfolio Item 9 - Pink Border -->
-                <div class="masonry-item">
-                    <div class="portfolio-item">
-                        <img src="portfolio/RogersAndHollands.webp" alt="Rogers And Hollands">
-                        <div class="portfolio-overlay">
-                            <h3>Rogers & Hollands</h3>
-                            <p>Jewelry E-commerce</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Portfolio Item 10 - Teal Border -->
-                <div class="masonry-item">
-                    <div class="portfolio-item">
-                        <img src="portfolio/PiesDescalzos.webp" alt="Pies Descalzos Foundation">
-                        <div class="portfolio-overlay">
-                            <h3>Pies Descalzos</h3>
-                            <p>Foundation Platform</p>
-                        </div>
-                    </div>
-                </div>
+        <!-- RIGHT COLUMN: 3D Perspective Visual Area -->
+        <div class="hero-visual-right">
+            <div class="modern-masonry" id="masonry3D">
+                <!-- Portfolio items will be generated by JavaScript -->
             </div>
         </div>
     </section>
@@ -835,406 +602,124 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
-            // Start animations with spotlight effect
-            function startMainAnimations() {
-                // PHASE 1: Spotlight Effect - Show only hero text and glow immediately
-                const heroText = document.querySelector('.hero-text');
-                const heroGlow = document.querySelector('.hero-glow');
+            /* ADVANCED 3D MASONRY ANIMATION SYSTEM */
+            function initAdvanced3DAnimations() {
+                // Initialize masonry first
+                init3DElevatorMasonry();
                 
-                // Show glow immediately for spotlight effect
-                if (heroGlow) {
-                    heroGlow.style.opacity = '1';
-                    heroGlow.style.transition = 'opacity 1.0s ease-out';
-                }
-                
-                // Show hero text container immediately
-                if (heroText) {
-                    heroText.style.opacity = '1';
-                    heroText.style.transform = 'translateY(0)';
-                    heroText.style.transition = 'all 1.0s ease-out';
+                // COMPRESSION LOAD-IN ANIMATION
+                // Start from compressed state and animate to 3D slanting position
+                const masonry = document.querySelector('.modern-masonry');
+                if (masonry) {
+                    // Set initial compressed state
+                    gsap.set(masonry, {
+                        scaleY: 0.4,
+                        scaleX: 0.8,
+                        rotateY: 0,
+                        rotateX: 0,
+                        opacity: 0,
+                        transformOrigin: "left center"
+                    });
                     
-                    // Animate main title words first (only the first two lines)
-                    const words = heroText.querySelectorAll('.line:nth-child(1) .word, .line:nth-child(2) .word');
-                    words.forEach((word, index) => {
-                        setTimeout(() => {
-                            word.style.opacity = '1';
-                            word.style.transform = 'translateY(0)';
-                            word.style.transition = 'all 0.6s ease-out';
-                        }, index * 200); // Slower, more dramatic reveal
+                    // Animate to final 3D slanting position
+                    gsap.to(masonry, {
+                        duration: 1.5,
+                        scaleY: 0.9,
+                        scaleX: 0.9,
+                        rotateY: -30,
+                        rotateX: 15,
+                        opacity: 1,
+                        ease: "power3.out",
+                        delay: 0.5
                     });
                 }
                 
-                // PHASE 2: After spotlight moment (1.5 seconds) - Show everything else
+                // CHARACTER-BY-CHARACTER TEXT ANIMATION with enhanced timing
+                initPremiumCharacterAnimation();
+                
+                // Initialize interactive hovers and magnetic button
                 setTimeout(() => {
-                    // Show navigation
-                    const nav = document.querySelector('.nav-reveal');
-                    if (nav) {
-                        nav.style.opacity = '1';
-                        nav.style.transform = 'translateY(0)';
-                        nav.style.transition = 'all 0.8s ease';
-                    }
-                    
-                    // Show remaining hero elements (divider, description, button)
-                    if (heroText) {
-                        const otherLines = heroText.querySelectorAll('.line:nth-child(n+3)');
-                        otherLines.forEach((line, index) => {
-                            setTimeout(() => {
-                                line.style.opacity = '1';
-                                line.style.transform = 'translateY(0)';
-                                line.style.transition = 'all 0.8s ease-out';
-                            }, index * 300); // Staggered reveal
-                        });
-                    }
-                    
-                    // Start background elements
-                    setTimeout(() => {
-                        // Background overlay
-                        const bg = document.querySelector('.hero-bg');
-                        if (bg) {
-                            bg.style.opacity = '1';
-                            bg.style.transition = 'opacity 1.5s ease';
-                        }
-                        
-                        // Start pixel reconstruction
-                        createPixelReconstruction();
-                    }, 400);
-                    
-                    // Show portfolio section
-                    setTimeout(() => {
-                        const portfolio = document.querySelector('section.portfolio-reveal');
-                        if (portfolio) {
-                            portfolio.classList.add('show');
-                            portfolio.style.opacity = '1';
-                            portfolio.style.transform = 'translateY(0)';
-                            portfolio.style.transition = 'all 1.2s ease-out';
-                        }
-                    }, 800);
-                    
-                    // Initialize masonry
-                    setTimeout(() => {
-                        initElevatorMasonry();
-                    }, 1200);
-                    
-                }, 1500); // 1.5 second spotlight moment
+                    init3DInteractiveHovers();
+                    initMagneticButton();
+                }, 2000);
             }
-            
-            startMainAnimations();
 
-            // Optimized pixel reconstruction effect
-            function createPixelReconstruction() {
-                const container = document.getElementById('pixelContainer');
-                if (!container) return;
-                
-                // Performance optimizations
-                const gridSize = 40; // Larger tiles = fewer elements
-                const screenWidth = window.innerWidth;
-                const screenHeight = window.innerHeight;
-                const cols = Math.ceil(screenWidth / gridSize);
-                const rows = Math.ceil(screenHeight / gridSize);
-                const totalShards = cols * rows;
-                
-                // Limit maximum shards for performance
-                if (totalShards > 800) {
-                    // Use CSS-only fallback for very large screens
-                    container.style.background = `url('hero.webp') center center/cover no-repeat`;
-                    container.style.opacity = '0';
-                    setTimeout(() => {
-                        container.style.opacity = '1';
-                        container.style.transition = 'opacity 2s ease-out';
-                    }, 0);
-                    return;
-                }
-                
-                console.log('Creating optimized pixel grid:', cols, 'x', rows);
-                
-                // Use DocumentFragment for efficient DOM manipulation
-                const fragment = document.createDocumentFragment();
-                const shards = [];
-                const centerX = screenWidth / 2;
-                const centerY = screenHeight / 2;
-                
-                // Create pixel shards efficiently
-                for (let row = 0; row < rows; row++) {
-                    for (let col = 0; col < cols; col++) {
-                        const shard = document.createElement('div');
-                        shard.className = 'pixel-shard';
-                        
-                        // Set styles efficiently
-                        const left = col * gridSize;
-                        const top = row * gridSize;
-                        shard.style.cssText = `
-                            width: ${gridSize}px;
-                            height: ${gridSize}px;
-                            left: ${left}px;
-                            top: ${top}px;
-                            background-size: ${screenWidth}px ${screenHeight}px;
-                            background-position: -${left}px -${top}px;
-                        `;
-                        
-                        // Calculate distance for sorting
-                        const shardX = left + gridSize / 2;
-                        const shardY = top + gridSize / 2;
-                        const distance = Math.sqrt((shardX - centerX) ** 2 + (shardY - centerY) ** 2);
-                        
-                        shards.push({ element: shard, distance: distance });
-                        fragment.appendChild(shard);
-                    }
-                }
-                
-                // Single DOM append
-                container.appendChild(fragment);
-                console.log('Optimized pixel shards created:', shards.length);
-                
-                // Start pixel animation immediately
-                setTimeout(() => {
-                    
-                    // Sort shards by distance from center (closest first)
-                    shards.sort((a, b) => a.distance - b.distance);
-                    
-                    // Use requestAnimationFrame for smooth animation
-                    let animationIndex = 0;
-                    const shardsPerFrame = 8;
-                    const frameDelay = 16;
-                    const pixelAnimationDuration = 800; // Each pixel animates for 0.8s
-                    
-                    function animateNextBatch() {
-                        const endIndex = Math.min(animationIndex + shardsPerFrame, shards.length);
-                        
-                        for (let i = animationIndex; i < endIndex; i++) {
-                            shards[i].element.classList.add('animate');
-                        }
-                        
-                        animationIndex = endIndex;
-                        
-                        if (animationIndex < shards.length) {
-                            setTimeout(() => requestAnimationFrame(animateNextBatch), frameDelay);
-                        }
-                    }
-                    
-                    // Start pixel animation
-                    requestAnimationFrame(animateNextBatch);
-                    
-                    // Calculate when ALL pixels will finish animating
-                    const totalPixels = shards.length;
-                    
-                    // Time for all batches to start = (totalPixels / shardsPerFrame) * frameDelay
-                    const lastBatchStartTime = Math.floor(totalPixels / shardsPerFrame) * frameDelay;
-                    
-                    // Total time = time for last batch to start + individual pixel animation duration
-                    const totalAnimationTime = lastBatchStartTime + pixelAnimationDuration;
-                    
-                    console.log(`📊 Animation calc: ${totalPixels} pixels, ${Math.floor(totalPixels/shardsPerFrame)} batches`);
-                    console.log(`📊 Last batch starts at: ${lastBatchStartTime}ms`);
-                    console.log(`📊 Total animation time: ${totalAnimationTime}ms`);
-                    
-                    // Create clean background layer before hiding pixels
-                    setTimeout(() => {
-                        console.log('🖼️ Creating clean background layer');
-                        
-                        // Create permanent background layer with EXACT same properties as pixel shards
-                        const cleanBackground = document.createElement('div');
-                        cleanBackground.style.cssText = `
-                            position: absolute;
-                            inset: 0;
-                            background-image: url('hero.webp');
-                            background-size: ${screenWidth}px ${screenHeight}px;
-                            background-position: 0px 0px;
-                            background-repeat: no-repeat;
-                            z-index: 1;
-                            opacity: 0;
-                            transition: opacity 0.3s ease;
-                        `;
-                        container.parentNode.insertBefore(cleanBackground, container);
-                        
-                        // Fade in clean background smoothly
-                        setTimeout(() => {
-                            cleanBackground.style.opacity = '1';
-                        }, 50);
-                        
-                        // Then fade out pixel container for seamless transition
-                        setTimeout(() => {
-                            console.log('🎯 Fading out pixel cuts at', Date.now());
-                            container.style.opacity = '0';
-                            container.style.transition = 'opacity 0.3s ease';
-                            
-                            // Completely hide after fade
-                            setTimeout(() => {
-                                container.style.display = 'none';
-                            }, 300);
-                        }, 200);
-                        
-                    }, totalAnimationTime + 500); // Extra 500ms buffer for complete animation
-                    
-                }, 200);
-                
-                // Animate other elements along with pixel effect
-                setTimeout(() => {
-                    console.log('🚀 Animating UI elements with pixel effect');
-                    
-                    // Glow is already handled in showHeroTextWithGlow(), skip duplicate
-                    
-                    // Background overlay - delay this to avoid sudden glow change
-                    setTimeout(() => {
-                        const bg = document.querySelector('.hero-bg');
-                        if (bg) {
-                            bg.style.opacity = '1';
-                            bg.style.transition = 'opacity 2s ease';
-                        }
-                    }, 1000); // Delay background overlay to avoid visual conflicts
-                    
-                    // Divider
-                    const divider = document.querySelector('.hero-text .line:nth-child(3)');
-                    if (divider) {
-                        divider.style.opacity = '1';
-                        divider.style.transform = 'translateY(0)';
-                        divider.style.transition = 'all 0.8s ease';
-                    }
-                    
-                    // Description
-                    const desc = document.querySelector('.hero-text .line:nth-child(4)');
-                    if (desc) {
-                        desc.style.opacity = '1';
-                        desc.style.transform = 'translateY(0)';
-                        desc.style.transition = 'all 0.8s ease';
-                    }
-                    
-                    // Button
-                    const button = document.querySelector('.hero-text .line:nth-child(5)');
-                    if (button) {
-                        button.style.opacity = '1';
-                        button.style.transform = 'translateY(0)';
-                        button.style.transition = 'all 0.8s ease';
-                    }
-                    
-                    // Navbar
-                    const nav = document.querySelector('.nav-reveal');
-                    if (nav) {
-                        nav.style.opacity = '1';
-                        nav.style.transform = 'translateY(0)';
-                        nav.style.transition = 'all 0.8s ease';
-                    }
-                    
-                }, 400); // UI elements appear 200ms after pixel effect starts
-            }
             
-            // Elevator Masonry Layout - Infinite Vertical Scrolling Columns
-            function createElevatorMasonry() {
+
+            /* 3D ELEVATOR MASONRY SYSTEM */
+            function init3DElevatorMasonry() {
                 const container = document.querySelector('.modern-masonry');
-                
-                if (!container) {
-                    console.log('Masonry container not found');
-                    return;
-                }
-                
-                console.log('Creating elevator masonry', container);
+                if (!container) return;
 
-                // Portfolio data with ACTUAL measured dimensions and site URLs
+                // Enhanced portfolio data with better aspect ratios
                 const portfolioData = [
                     { 
                         img: 'portfolio/Illinois-HCOM.webp', 
                         title: 'Illinois HCOM', 
                         desc: 'Healthcare Education Platform', 
                         actualWidth: 1310, 
-                        actualHeight: 1065,
-                        logo: 'logos/illionis.png',
-                        url: 'https://hcom.illinois.edu'
+                        actualHeight: 1065
                     },
                     { 
                         img: 'portfolio/Optum.webp', 
                         title: 'Optum', 
                         desc: 'Healthcare Marketing Campaign', 
                         actualWidth: 1025, 
-                        actualHeight: 768,
-                        logo: 'logos/optum.png',
-                        url: 'https://optum.com'
+                        actualHeight: 768
                     },
                     { 
                         img: 'portfolio/Illinois-SBC-Phone.webp', 
                         title: 'Illinois SBC', 
                         desc: 'Mobile Experience', 
                         actualWidth: 1142, 
-                        actualHeight: 2015,
-                        logo: 'logos/illionis.png',
-                        url: 'https://sbc.illinois.edu'
+                        actualHeight: 2015
                     },
                     { 
                         img: 'portfolio/Shakira.webp', 
                         title: 'Pies Descalzos', 
                         desc: 'Non-Profit Foundation', 
                         actualWidth: 1920, 
-                        actualHeight: 1080,
-                        logo: 'logos/fundacion.png',
-                        url: 'https://piesdescalzos.org'
+                        actualHeight: 1080
                     },
                     { 
                         img: 'portfolio/oreo.webp', 
                         title: 'Oreo', 
                         desc: 'Brand Campaign', 
                         actualWidth: 1070, 
-                        actualHeight: 1070,
-                        logo: 'logos/oreo.png',
-                        url: 'https://oreo.com'
+                        actualHeight: 1070
                     },
                     { 
                         img: 'portfolio/LoyolaMedicine.webp', 
                         title: 'Loyola Medicine', 
                         desc: 'Medical Website', 
                         actualWidth: 1031, 
-                        actualHeight: 792,
-                        logo: 'logos/loyola.png',
-                        url: 'https://loyolamedicine.org'
+                        actualHeight: 792
                     },
                     { 
                         img: 'portfolio/Illinois-SBC-Tablet.webp', 
                         title: 'Illinois SBC', 
                         desc: 'Tablet Experience', 
                         actualWidth: 1736, 
-                        actualHeight: 2225,
-                        logo: 'logos/illionis.png',
-                        url: 'https://sbc.illinois.edu'
+                        actualHeight: 2225
                     },
                     { 
                         img: 'portfolio/Pazzos.webp', 
                         title: 'Pazzos', 
                         desc: 'Restaurant Website', 
                         actualWidth: 1359, 
-                        actualHeight: 892,
-                        logo: 'logos/pazzos.png',
-                        url: 'https://pazzos.com'
-                    },
-                    { 
-                        img: 'portfolio/RogersAndHollands.webp', 
-                        title: 'Rogers & Hollands', 
-                        desc: 'Jewelry E-commerce', 
-                        actualWidth: 882, 
-                        actualHeight: 1248,
-                        logo: 'logos/rogers.png',
-                        url: 'https://rogersandhollands.com'
-                    },
-                    { 
-                        img: 'portfolio/PiesDescalzos.webp', 
-                        title: 'Pies Descalzos', 
-                        desc: 'Foundation Platform', 
-                        actualWidth: 1421, 
-                        actualHeight: 952,
-                        logo: 'logos/fundacion.png',
-                        url: 'https://piesdescalzos.org'
+                        actualHeight: 892
                     }
                 ];
                 
-                // Clear existing items safely
-                const existingItems = container.querySelectorAll('.masonry-item');
-                console.log('Found existing portfolio items:', existingItems.length);
+                // Clear existing items
                 container.innerHTML = '';
                 
-                // Create columns
-                const numColumns = window.innerWidth > 1200 ? 3 : window.innerWidth > 768 ? 2 : 1;
+                // Create 3D columns
+                const numColumns = window.innerWidth > 1200 ? 3 : 2;
                 const columns = [];
                 
-                // Distribute images evenly across columns without cycling
+                // Distribute images across columns
                 const imagesByColumn = Array.from({ length: numColumns }, () => []);
-                
-                // Assign each image to a column in order
                 portfolioData.forEach((data, index) => {
                     const columnIndex = index % numColumns;
                     imagesByColumn[columnIndex].push(data);
@@ -1247,39 +732,34 @@
                     const track = document.createElement('div');
                     track.className = `column-track ${i % 2 === 0 ? 'elevator-up' : 'elevator-down'}`;
                     
-                    // Create items for this specific column (double for infinite scroll)
+                    // Create items for this column (multiple copies for seamless infinite scroll)
                     const columnImages = imagesByColumn[i];
-                    const duplicatedImages = [...columnImages, ...columnImages]; // Double for infinite scroll
+                    const infiniteImages = [];
+                    // Create enough copies to ensure seamless scrolling
+                    for (let k = 0; k < 8; k++) {
+                        infiniteImages.push(...columnImages);
+                    }
                     
-                    duplicatedImages.forEach((data, j) => {
-                        // Calculate container size based on ACTUAL image aspect ratio
+                    infiniteImages.forEach((data, j) => {
                         const aspectRatio = data.actualHeight / data.actualWidth;
-                        // Use base width for aspect ratio calculation, but make container fill column
-                        const baseWidth = 400; // Base width for aspect ratio calculation
-                        const containerHeight = Math.round(baseWidth * aspectRatio);
+                        const baseWidth = 280;
+                        
+                        // Calculate responsive height based on aspect ratio
+                        // Use a scaling factor to maintain visual balance
+                        const scaleFactor = aspectRatio > 1.5 ? 0.7 : aspectRatio < 0.8 ? 1.2 : 1;
+                        const containerHeight = Math.round(baseWidth * aspectRatio * scaleFactor);
                         
                         const item = document.createElement('div');
-                        item.className = `masonry-item column-item`;
-                        item.style.width = '100%'; // Fill the entire column width
+                        item.className = 'masonry-item column-item';
+                        item.style.width = '100%';
                         item.style.height = containerHeight + 'px';
                         
                         item.innerHTML = `
                             <div class="portfolio-item">
-                                <img src="${data.img}" alt="${data.title}" style="object-fit: cover;">
+                                <img src="${data.img}" alt="${data.title}" loading="lazy">
                                 <div class="portfolio-overlay">
-                                    <div class="logo-container">
-                                        <img src="${data.logo}" alt="${data.title} Logo" class="company-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                                        <div class="fallback-text" style="display: none;">
-                                            <h3>${data.title}</h3>
-                                            <p>${data.desc}</p>
-                                        </div>
-                                        <a href="${data.url}" target="_blank" class="visit-site-btn">
-                                            <span>Visit Site</span>
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                            </svg>
-                                        </a>
-                                    </div>
+                                    <h3>${data.title}</h3>
+                                    <p>${data.desc}</p>
                                 </div>
                             </div>
                         `;
@@ -1291,39 +771,87 @@
                     container.appendChild(column);
                     columns.push(column);
                 }
+            }
+
+            /* 3D INTERACTIVE HOVER EFFECTS */
+            function init3DInteractiveHovers() {
+                const masonryItems = document.querySelectorAll('.masonry-item');
                 
-                // Add pause on hover for each column
-                columns.forEach(column => {
+                masonryItems.forEach(item => {
+                    const column = item.closest('.masonry-column');
                     const track = column.querySelector('.column-track');
                     
-                    column.addEventListener('mouseenter', () => {
+                    item.addEventListener('mouseenter', () => {
                         track.style.animationPlayState = 'paused';
+                        gsap.to(item, {
+                            z: 20,
+                            y: -8,
+                            scale: 1.02,
+                            duration: 0.5,
+                            ease: "power2.out"
+                        });
                     });
                     
-                    column.addEventListener('mouseleave', () => {
+                    item.addEventListener('mouseleave', () => {
                         track.style.animationPlayState = 'running';
+                        gsap.to(item, {
+                            z: 0,
+                            y: 0,
+                            scale: 1,
+                            duration: 0.5,
+                            ease: "power2.out"
+                        });
                     });
                 });
             }
-            
-            // Initialize elevator masonry
-            function initElevatorMasonry() {
-                setTimeout(() => {
-                    createElevatorMasonry();
-                }, 100);
-            }
-            
-            // Handle window resize
-            let resizeTimeout;
-            window.addEventListener('resize', () => {
-                clearTimeout(resizeTimeout);
-                resizeTimeout = setTimeout(() => {
-                    createElevatorMasonry();
-                }, 250);
-            });
-            
 
-            // --- START: Cleaned-up mobile menu toggle ---
+            /* MAGNETIC BUTTON EFFECT */
+            function initMagneticButton() {
+                const magneticBtn = document.getElementById('magneticBtn');
+                if (!magneticBtn) return;
+                
+                let isHovering = false;
+                
+                magneticBtn.addEventListener('mouseenter', () => {
+                    isHovering = true;
+                    gsap.to(magneticBtn, {
+                        scale: 1.08,
+                        duration: 0.4,
+                        ease: "power2.out"
+                    });
+                });
+                
+                magneticBtn.addEventListener('mouseleave', () => {
+                    isHovering = false;
+                    gsap.to(magneticBtn, {
+                        x: 0,
+                        y: 0,
+                        scale: 1,
+                        duration: 0.6,
+                        ease: "elastic.out(1, 0.6)"
+                    });
+                });
+                
+                magneticBtn.addEventListener('mousemove', (e) => {
+                    if (!isHovering) return;
+                    
+                    const rect = magneticBtn.getBoundingClientRect();
+                    const centerX = rect.left + rect.width / 2;
+                    const centerY = rect.top + rect.height / 2;
+                    
+                    const deltaX = (e.clientX - centerX) * 0.25;
+                    const deltaY = (e.clientY - centerY) * 0.25;
+                    
+                    gsap.to(magneticBtn, {
+                        x: deltaX,
+                        y: deltaY,
+                        duration: 0.4,
+                        ease: "power2.out"
+                    });
+                });
+            }
+
+            // Mobile menu functionality
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
             const mobileMenu = document.getElementById('mobileMenu');
             const mobileMenuClose = document.getElementById('mobileMenuClose');
@@ -1331,25 +859,23 @@
             function openMobileMenu() {
                 if (mobileMenu) {
                     mobileMenu.classList.remove('invisible', 'opacity-0');
-                    document.body.style.overflow = 'hidden'; // Prevent scrolling
+                    document.body.style.overflow = 'hidden';
                 }
             }
 
             function closeMobileMenu() {
                 if (mobileMenu) {
                     mobileMenu.classList.add('invisible', 'opacity-0');
-                    document.body.style.overflow = ''; // Restore scrolling
+                    document.body.style.overflow = 'hidden'; // Keep hidden for main page
                 }
             }
 
-            // Event Listeners
             if (mobileMenuBtn) {
                 mobileMenuBtn.addEventListener('click', openMobileMenu);
             }
             if (mobileMenuClose) {
                 mobileMenuClose.addEventListener('click', closeMobileMenu);
             }
-            // Optional: Close menu by clicking the background overlay
             if (mobileMenu) {
                 mobileMenu.addEventListener('click', (e) => {
                     if (e.target === mobileMenu) {
@@ -1357,24 +883,21 @@
                     }
                 });
             }
-            // --- END: Cleaned-up mobile menu toggle ---
 
-            // Modern navbar scroll effect
-            window.addEventListener('scroll', () => {
-                const scrolled = window.pageYOffset;
-                const nav = document.querySelector('nav');
-                
-                // Navbar morphing effect
-                if (scrolled > 100) {
-                    nav.classList.add('nav-scrolled');
-                } else {
-                    nav.classList.remove('nav-scrolled');
-                }
-                
-                // Removed parallax effect to prevent hero text from animating on scroll
+            // Handle window resize for 3D masonry
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    init3DElevatorMasonry();
+                    setTimeout(() => {
+                        init3DInteractiveHovers();
+                    }, 100);
+                }, 250);
             });
 
-            // Hover effects are now handled via CSS for elevator masonry
+            // Initialize all advanced 3D animations
+            initAdvanced3DAnimations();
         });
     </script>
 </body>
