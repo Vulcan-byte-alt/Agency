@@ -216,6 +216,18 @@
             height: 100vh;
             overflow: hidden;
             gap: 20px;
+            
+            /* Smooth fade for top & bottom */
+            mask-image: linear-gradient(to bottom, 
+                transparent 0%, 
+                black 5%, 
+                black 95%, 
+                transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, 
+                transparent 0%, 
+                black 5%, 
+                black 95%, 
+                transparent 100%);
         }
 
         .masonry-column {
@@ -225,66 +237,30 @@
         }
 
         .masonry-item {
-            border-radius: 16px;
+            border-radius: 12px;
             overflow: hidden;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: pointer;
             position: relative;
-            background: #1a1a1a;
-            margin-bottom: 12px;
+            margin-bottom: 20px;
             opacity: 1;
-            padding: 2px; /* Tight padding for border */
+            
+            /* The new "Smoked Glass" container effect */
+            background: rgba(30, 30, 30, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: inset 0 0 1px 1px rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
         }
 
-        /* Individual borders and initial sizing - JS will handle dimensions */
-        .masonry-item:nth-child(1) { 
-            border: 4px solid #3b82f6;
-        }
-        .masonry-item:nth-child(2) { 
-            border: 4px solid #ef4444;
-        }
-        .masonry-item:nth-child(3) { 
-            border: 4px solid #10b981;
-        }
-        .masonry-item:nth-child(4) { 
-            border: 4px solid #f59e0b;
-        }
-        .masonry-item:nth-child(5) { 
-            border: 4px solid #8b5cf6;
-        }
-        .masonry-item:nth-child(6) { 
-            border: 4px solid #06b6d4;
-        }
-        .masonry-item:nth-child(7) { 
-            border: 4px solid #f97316;
-        }
-        .masonry-item:nth-child(8) { 
-            border: 4px solid #84cc16;
-        }
-        .masonry-item:nth-child(9) { 
-            border: 4px solid #ec4899;
-        }
-        .masonry-item:nth-child(10) { 
-            border: 4px solid #14b8a6;
-        }
 
         .masonry-item:hover {
             transform: translateY(-8px) scale(1.02);
             z-index: 10;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+            /* The soft white glow */
+            box-shadow: 0 25px 50px -12px rgba(255, 255, 255, 0.1);
         }
 
-        /* Enhanced hover effects with border glow */
-        .masonry-item:nth-child(1):hover { box-shadow: 0 25px 50px -12px rgba(59, 130, 246, 0.5); }
-        .masonry-item:nth-child(2):hover { box-shadow: 0 25px 50px -12px rgba(239, 68, 68, 0.5); }
-        .masonry-item:nth-child(3):hover { box-shadow: 0 25px 50px -12px rgba(16, 185, 129, 0.5); }
-        .masonry-item:nth-child(4):hover { box-shadow: 0 25px 50px -12px rgba(245, 158, 11, 0.5); }
-        .masonry-item:nth-child(5):hover { box-shadow: 0 25px 50px -12px rgba(139, 92, 246, 0.5); }
-        .masonry-item:nth-child(6):hover { box-shadow: 0 25px 50px -12px rgba(6, 182, 212, 0.5); }
-        .masonry-item:nth-child(7):hover { box-shadow: 0 25px 50px -12px rgba(249, 115, 22, 0.5); }
-        .masonry-item:nth-child(8):hover { box-shadow: 0 25px 50px -12px rgba(132, 204, 22, 0.5); }
-        .masonry-item:nth-child(9):hover { box-shadow: 0 25px 50px -12px rgba(236, 72, 153, 0.5); }
-        .masonry-item:nth-child(10):hover { box-shadow: 0 25px 50px -12px rgba(20, 184, 166, 0.5); }
 
         @media (max-width: 1200px) {
             .modern-masonry {
@@ -341,12 +317,12 @@
 
         .column-track.elevator-up {
             animation-name: elevatorUp;
-            animation-duration: 25s;
+            animation-duration: 90s;
         }
 
         .column-track.elevator-down {
             animation-name: elevatorDown;
-            animation-duration: 30s;
+            animation-duration: 105s;
         }
 
         @keyframes elevatorUp {
@@ -797,7 +773,7 @@
 
     <!-- Navigation -->
     <nav class="nav-reveal fixed top-0 left-0 right-0 z-50 px-8 py-6">
-        <div class="max-w-7xl mx-auto flex items-center">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="logo text-2xl font-black tracking-tight cursor-pointer">
                 AGENCY
             </div>
@@ -817,6 +793,39 @@
                 <span class="w-5 h-0.5 bg-white rounded-full transition-all shadow-sm"></span>
                 <span class="w-5 h-0.5 bg-white rounded-full transition-all shadow-sm"></span>
             </button>
+            
+            <!-- Full-Screen Mobile Menu -->
+            <div id="mobileMenu" class="md:hidden fixed inset-0 bg-black/90 backdrop-blur-xl z-50 opacity-0 invisible transition-all duration-500 ease-out">
+                <!-- Header with X Button -->
+                <div class="flex justify-between items-center p-8">
+                    <div class="logo text-2xl font-black tracking-tight text-white">
+                        AGENCY
+                    </div>
+                    <button id="mobileMenuClose" class="w-10 h-10 flex flex-col justify-center items-center space-y-1 rounded-xl bg-gradient-to-br from-red-500/20 to-red-600/20 backdrop-blur-sm border border-red-500/30 hover:from-red-500/30 hover:to-red-600/30 transition-all duration-300">
+                        <span class="w-5 h-0.5 bg-white rounded-full transition-all shadow-sm rotate-45 translate-y-1.5"></span>
+                        <span class="w-5 h-0.5 bg-white rounded-full transition-all shadow-sm opacity-0"></span>
+                        <span class="w-5 h-0.5 bg-white rounded-full transition-all shadow-sm -rotate-45 -translate-y-1.5"></span>
+                    </button>
+                </div>
+                
+                <!-- Menu Content -->
+                <div class="flex flex-col items-center justify-center h-full -mt-20">
+                    <nav class="flex flex-col items-center space-y-8">
+                        <a href="#" class="text-white text-3xl font-light tracking-wide hover:text-red-400 transition-all duration-300 transform hover:scale-105" style="font-family: 'Montserrat', sans-serif;">Work</a>
+                        <a href="#" class="text-white text-3xl font-light tracking-wide hover:text-red-400 transition-all duration-300 transform hover:scale-105" style="font-family: 'Montserrat', sans-serif;">Services</a>
+                        <a href="#" class="text-white text-3xl font-light tracking-wide hover:text-red-400 transition-all duration-300 transform hover:scale-105" style="font-family: 'Montserrat', sans-serif;">About</a>
+                        <a href="#" class="text-white text-3xl font-light tracking-wide hover:text-red-400 transition-all duration-300 transform hover:scale-105" style="font-family: 'Montserrat', sans-serif;">Contact</a>
+                    </nav>
+                    
+                    <button class="mt-12 px-12 py-4 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-full font-semibold text-lg hover:from-red-600 hover:to-red-700 transition-all duration-300 shadow-lg hover:shadow-red-500/25 hover:scale-105 transform">
+                        Get Started
+                    </button>
+                </div>
+                
+                <!-- Decorative Elements -->
+                <div class="absolute top-1/2 left-8 w-px h-32 bg-gradient-to-b from-transparent via-red-500/30 to-transparent"></div>
+                <div class="absolute top-1/2 right-8 w-px h-32 bg-gradient-to-b from-transparent via-red-500/30 to-transparent"></div>
+            </div>
         </div>
     </nav>
 
@@ -871,20 +880,29 @@
     <!-- Portfolio Section -->
     <section class="portfolio-reveal py-24 px-8 relative z-10">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-20">
-                <div class="inline-block mb-12">
-                    <span class="text-xs md:text-sm font-medium text-red-500 uppercase tracking-[0.2em] mb-6 block opacity-70" style="font-family: 'Montserrat', sans-serif; font-weight: 500;">Selected Works</span>
-                    <h2 class="text-5xl md:text-7xl lg:text-8xl font-light leading-[0.9] mb-4" style="font-family: 'Montserrat', sans-serif; font-weight: 300; letter-spacing: -0.025em;">
-                        Our <span class="gradient-text relative" style="font-weight: 600;">Portfolio
-                            <div class="absolute -bottom-3 left-0 right-0 h-1.5 bg-gradient-to-r from-red-500 to-red-600 rounded-full transform scale-x-0 transition-transform duration-700 delay-300" style="animation: underline-expand 1.5s ease-out 2s forwards;"></div>
-                        </span>
-                    </h2>
-                </div>
-                <p class="text-base md:text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed font-light" style="letter-spacing: 0.015em; font-family: 'Inter', sans-serif;">
-                    Crafting digital experiences that drive measurable results across industries and platforms. 
-                    <span class="text-red-400 font-medium">Every project tells a story.</span>
-                </p>
-            </div>
+<div class="text-center mb-24"> <span class="block text-sm font-light text-red-500/80 uppercase tracking-widest mb-8"
+        style="font-family: 'Montserrat', sans-serif;">
+        Selected Works
+    </span>
+
+    <h2 class="text-5xl md:text-7xl lg:text-8xl font-extralight text-white leading-tight"
+        style="font-family: 'Montserrat', sans-serif; letter-spacing: -0.02em;">
+        <span>Our </span>
+        <span class="gradient-text relative" style="font-weight: 700;">Portfolio
+            <div class="absolute -bottom-3 left-0 right-0 h-1.5 bg-gradient-to-r from-red-500 to-red-600 rounded-full transform scale-x-0"
+                style="animation: underline-expand 1.5s ease-out 2s forwards;"></div>
+        </span>
+    </h2>
+
+    <div class="w-20 h-px bg-gradient-to-r from-transparent via-red-500 to-transparent mx-auto my-12 opacity-50"></div>
+
+    <p class="text-base md:text-lg text-gray-400 max-w-xl mx-auto font-light leading-relaxed"
+        style="font-family: 'Inter', sans-serif;">
+        Crafting digital experiences that drive measurable results. Every project below tells a story of innovation and
+        partnership.
+    </p>
+
+</div>
             
             <style>
                 @keyframes underline-expand {
@@ -1595,14 +1613,9 @@
                         item.style.width = '100%'; // Fill the entire column width
                         item.style.height = containerHeight + 'px';
                         
-                        // Find original index for border color
-                        const originalIndex = portfolioData.findIndex(p => p.img === data.img);
-                        const borderColors = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6', '#06b6d4', '#f97316', '#84cc16', '#ec4899', '#14b8a6'];
-                        item.style.border = `4px solid ${borderColors[originalIndex]}`;
-                        
                         item.innerHTML = `
                             <div class="portfolio-item">
-                                <img src="${data.img}" alt="${data.title}" style="object-fit: contain;">
+                                <img src="${data.img}" alt="${data.title}" style="object-fit: cover;">
                                 <div class="portfolio-overlay">
                                     <div class="logo-container">
                                         <img src="${data.logo}" alt="${data.title} Logo" class="company-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
@@ -1661,13 +1674,59 @@
             
             // Elevator masonry now handled by theater curtain controller
 
-            // Mobile menu toggle - removed dropdown functionality
+            // --- START: Premium full-screen mobile menu toggle ---
             const mobileMenuBtn = document.querySelector('button.md\\:hidden');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileMenuClose = document.getElementById('mobileMenuClose');
+            const burgerSpans = mobileMenuBtn ? mobileMenuBtn.querySelectorAll('span') : [];
+
+            function openMobileMenu() {
+                if (mobileMenu) {
+                    mobileMenu.classList.remove('opacity-0', 'invisible');
+                    mobileMenu.classList.add('opacity-100', 'visible');
+                    
+                    // Animate burger icon to X
+                    burgerSpans[0].classList.add('rotate-45', 'translate-y-1.5');
+                    burgerSpans[1].classList.add('opacity-0');
+                    burgerSpans[2].classList.add('-rotate-45', '-translate-y-1.5');
+                    
+                    // Prevent body scroll
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+
+            function closeMobileMenu() {
+                if (mobileMenu) {
+                    mobileMenu.classList.remove('opacity-100', 'visible');
+                    mobileMenu.classList.add('opacity-0', 'invisible');
+                    
+                    // Animate X back to burger
+                    burgerSpans[0].classList.remove('rotate-45', 'translate-y-1.5');
+                    burgerSpans[1].classList.remove('opacity-0');
+                    burgerSpans[2].classList.remove('-rotate-45', '-translate-y-1.5');
+                    
+                    // Restore body scroll
+                    document.body.style.overflow = '';
+                }
+            }
+
             if (mobileMenuBtn) {
-                mobileMenuBtn.addEventListener('click', () => {
-                    console.log('Mobile menu clicked - functionality removed for now');
+                mobileMenuBtn.addEventListener('click', openMobileMenu);
+            }
+
+            if (mobileMenuClose) {
+                mobileMenuClose.addEventListener('click', closeMobileMenu);
+            }
+
+            // Close menu when clicking on overlay
+            if (mobileMenu) {
+                mobileMenu.addEventListener('click', (e) => {
+                    if (e.target === mobileMenu) {
+                        closeMobileMenu();
+                    }
                 });
             }
+            // --- END: Premium mobile menu toggle ---
 
             // Modern navbar scroll effect
             window.addEventListener('scroll', () => {
