@@ -31,7 +31,6 @@
         .hero-text {
             opacity: 0;
             transform: translateY(30px);
-            animation: textReveal 1.5s ease-out 0.5s forwards;
             position: relative;
             z-index: 10;
         }
@@ -40,14 +39,16 @@
             display: inline-block;
             opacity: 0;
             transform: translateY(20px);
-            animation: wordReveal 0.8s ease-out forwards;
+            /* Disable automatic animations - will be handled by JavaScript */
         }
 
-        .hero-text .line:nth-child(1) .word:nth-child(1) { animation-delay: 0.2s; }
-        .hero-text .line:nth-child(1) .word:nth-child(2) { animation-delay: 0.5s; }
-        
-        .hero-text .line:nth-child(2) .word:nth-child(1) { animation-delay: 0.8s; }
-        .hero-text .line:nth-child(2) .word:nth-child(2) { animation-delay: 1.1s; }
+        /* Disable automatic word animation delays */
+        .hero-text .line:nth-child(1) .word:nth-child(1),
+        .hero-text .line:nth-child(1) .word:nth-child(2),
+        .hero-text .line:nth-child(2) .word:nth-child(1),
+        .hero-text .line:nth-child(2) .word:nth-child(2) {
+            animation: none;
+        }
         
         .hero-text .line:nth-child(3),
         .hero-text .line:nth-child(4),
@@ -193,7 +194,11 @@
         .portfolio-reveal {
             opacity: 0;
             transform: translateY(40px);
-            animation: portfolioReveal 1s ease-out 4s forwards;
+        }
+        
+        .portfolio-reveal.show {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
         }
 
         @keyframes portfolioReveal {
@@ -226,8 +231,9 @@
             cursor: pointer;
             position: relative;
             background: #1a1a1a;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
             opacity: 1;
+            padding: 2px; /* Tight padding for border */
         }
 
         /* Individual borders and initial sizing - JS will handle dimensions */
@@ -301,8 +307,8 @@
         .portfolio-item {
             position: relative;
             width: 100%;
-            height: 100%;
-            border-radius: 16px;
+            height: calc(100% - 4px); /* Account for border padding */
+            border-radius: 12px;
             overflow: hidden;
             background: #1a1a1a;
         }
@@ -361,14 +367,17 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: 
-                radial-gradient(circle at center, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.7) 70%, rgba(0, 0, 0, 0.9) 100%),
-                linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.8) 100%);
+            border-radius: 12px;
+            z-index: 10;
             opacity: 0;
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 10;
-            backdrop-filter: blur(2px);
-            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
+
+            /* The Glass Effect */
+            background: rgba(20, 20, 20, 0.25);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
         }
 
         .portfolio-item:hover::before {
@@ -513,6 +522,165 @@
             transform: translate(2px, -2px);
         }
 
+        /* Theater Curtain Loading Screen */
+        .theater-curtain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            pointer-events: none;
+            background: linear-gradient(to bottom, 
+                rgba(239, 68, 68, 0.2) 0%, 
+                rgba(239, 68, 68, 0.15) 50%, 
+                rgba(0, 0, 0, 0.95) 50%, 
+                rgba(0, 0, 0, 0.98) 100%);
+        }
+
+        .curtain-left, .curtain-right {
+            position: absolute;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to bottom, 
+                rgba(239, 68, 68, 0.2) 0%, 
+                rgba(239, 68, 68, 0.15) 50%, 
+                rgba(0, 0, 0, 0.95) 50%, 
+                rgba(0, 0, 0, 0.98) 100%);
+            transition: transform 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: inset 0 0 50px rgba(239, 68, 68, 0.1);
+        }
+
+        .curtain-left {
+            left: 0;
+            transform-origin: left center;
+        }
+
+        .curtain-right {
+            right: 0;
+            transform-origin: right center;
+        }
+
+        .curtain-left.lift {
+            transform: translateY(-100%);
+        }
+
+        .curtain-right.lift {
+            transform: translateY(-100%);
+        }
+
+        /* Loading Animation */
+        .loading-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10000;
+        }
+
+        .loading-text-section {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .loading-spinner-section {
+            position: absolute;
+            top: 65%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .loading-text {
+            color: rgba(255, 255, 255, 0.9);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.125rem;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            animation: loadingPulse 2s ease-in-out infinite;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-top: 2px solid #ef4444;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        /* Fun Facts Section */
+        .loading-facts {
+            margin-top: 32px;
+            text-align: center;
+            max-width: 280px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .fact-text {
+            color: rgba(255, 255, 255, 0.7);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 400;
+            line-height: 1.4;
+            letter-spacing: 0.01em;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: factSlideIn 0.5s ease-out forwards;
+        }
+
+        .fact-label {
+            color: rgba(239, 68, 68, 0.8);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+            opacity: 0;
+            animation: factSlideIn 0.5s ease-out 0.2s forwards;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes factSlideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes loadingPulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* Initial hero state - hidden until curtain lifts */
+        .hero-initial {
+            .hero-text {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            
+            .hero-glow {
+                opacity: 0;
+            }
+            
+            .pixel-reconstruction {
+                opacity: 0;
+            }
+        }
+
         .logo {
             background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             -webkit-background-clip: text;
@@ -602,6 +770,31 @@
     </style>
 </head>
 <body class="bg-black text-white overflow-x-hidden">
+    <!-- Theater Curtain Loading Screen -->
+    <div class="theater-curtain" id="theaterCurtain">
+        <div class="curtain-left" id="curtainLeft"></div>
+        <div class="curtain-right" id="curtainRight"></div>
+        
+        <!-- Loading Animation -->
+        <div class="loading-container" id="loadingContainer">
+            <!-- Text at bottom edge of red tint -->
+            <div class="loading-text-section">
+                <div class="loading-text">Loading Experience</div>
+            </div>
+            
+            <!-- Spinner with Fun Facts at top edge of black area -->
+            <div class="loading-spinner-section">
+                <div class="loading-spinner"></div>
+                
+                <!-- Fun Facts -->
+                <div class="loading-facts">
+                    <div class="fact-label" id="factLabel">Did you know?</div>
+                    <div class="fact-text" id="factText">Digital agencies help brands grow 3x faster than traditional marketing methods.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Navigation -->
     <nav class="nav-reveal fixed top-0 left-0 right-0 z-50 px-8 py-6">
         <div class="max-w-7xl mx-auto flex items-center">
@@ -679,17 +872,17 @@
     <section class="portfolio-reveal py-24 px-8 relative z-10">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-20">
-                <div class="inline-block mb-8">
-                    <span class="text-sm font-medium text-red-500 uppercase tracking-widest mb-4 block opacity-80">Selected Works</span>
-                    <h2 class="text-5xl md:text-7xl lg:text-8xl font-black leading-none mb-6" style="font-family: 'Montserrat', sans-serif; letter-spacing: -0.02em;">
-                        Our <span class="gradient-text relative">Portfolio
-                            <div class="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-red-500 to-red-600 rounded-full transform scale-x-0 transition-transform duration-700 delay-300" style="animation: underline-expand 1.5s ease-out 2s forwards;"></div>
+                <div class="inline-block mb-12">
+                    <span class="text-xs md:text-sm font-medium text-red-500 uppercase tracking-[0.2em] mb-6 block opacity-70" style="font-family: 'Montserrat', sans-serif; font-weight: 500;">Selected Works</span>
+                    <h2 class="text-5xl md:text-7xl lg:text-8xl font-light leading-[0.9] mb-4" style="font-family: 'Montserrat', sans-serif; font-weight: 300; letter-spacing: -0.025em;">
+                        Our <span class="gradient-text relative" style="font-weight: 600;">Portfolio
+                            <div class="absolute -bottom-3 left-0 right-0 h-1.5 bg-gradient-to-r from-red-500 to-red-600 rounded-full transform scale-x-0 transition-transform duration-700 delay-300" style="animation: underline-expand 1.5s ease-out 2s forwards;"></div>
                         </span>
                     </h2>
                 </div>
-                <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed font-light" style="letter-spacing: 0.02em;">
-                    Crafting digital experiences that drive results across industries and platforms. 
-                    <span class="text-red-400">Every project tells a story.</span>
+                <p class="text-base md:text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed font-light" style="letter-spacing: 0.015em; font-family: 'Inter', sans-serif;">
+                    Crafting digital experiences that drive measurable results across industries and platforms. 
+                    <span class="text-red-400 font-medium">Every project tells a story.</span>
                 </p>
             </div>
             
@@ -815,6 +1008,248 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Fun Facts Rotator
+            function initFunFacts() {
+                const facts = [
+                    "Digital agencies help brands grow 3x faster than traditional marketing methods.",
+                    "The first banner ad was launched in 1994 and had a 44% click-through rate.",
+                    "Video content generates 1200% more shares than text and images combined.",
+                    "92% of businesses say their websites are their #1 digital marketing tool.",
+                    "Good web design can increase conversion rates by up to 200%.",
+                    "Users form an opinion about a website in just 0.05 seconds.",
+                    "Mobile users are 5x more likely to abandon a slow-loading site.",
+                    "Personalized experiences can increase sales by up to 19%.",
+                    "71% of consumers prefer ads tailored to their interests and shopping habits.",
+                    "The average person sees 5,000 ads per day across all media."
+                ];
+                
+                const factText = document.getElementById('factText');
+                const factLabel = document.getElementById('factLabel');
+                let currentIndex = 0;
+                
+                function rotateFact() {
+                    // Fade out
+                    factText.style.opacity = '0';
+                    factText.style.transform = 'translateY(10px)';
+                    
+                    setTimeout(() => {
+                        // Change text
+                        currentIndex = (currentIndex + 1) % facts.length;
+                        factText.textContent = facts[currentIndex];
+                        
+                        // Fade in
+                        factText.style.opacity = '1';
+                        factText.style.transform = 'translateY(0)';
+                    }, 250);
+                }
+                
+                // Start rotating facts every 2.5 seconds
+                const factInterval = setInterval(rotateFact, 2500);
+                
+                // Clean up when loading is done
+                return () => clearInterval(factInterval);
+            }
+            
+            // Start fun facts rotation
+            const stopFacts = initFunFacts();
+
+            // Theater Curtain Loading Screen Controller
+            function initTheaterCurtain() {
+                const curtainLeft = document.getElementById('curtainLeft');
+                const curtainRight = document.getElementById('curtainRight');
+                const theaterCurtain = document.getElementById('theaterCurtain');
+                
+                let heroImageLoaded = false;
+                let pixelImageLoaded = false;
+                let minDisplayTime = false;
+                
+                // Check if hero background image loads
+                const heroImage = new Image();
+                heroImage.onload = function() {
+                    console.log('✅ Hero background image loaded successfully');
+                    heroImageLoaded = true;
+                    checkCurtainLift();
+                };
+                
+                heroImage.onerror = function() {
+                    console.log('❌ Hero background image failed to load');
+                    heroImageLoaded = true; // Still lift curtain even if image fails
+                    checkCurtainLift();
+                };
+                
+                // Check if pixel reconstruction image loads
+                const pixelImage = new Image();
+                pixelImage.onload = function() {
+                    console.log('✅ Pixel reconstruction image loaded successfully');
+                    pixelImageLoaded = true;
+                    checkCurtainLift();
+                };
+                
+                pixelImage.onerror = function() {
+                    console.log('❌ Pixel reconstruction image failed to load');
+                    pixelImageLoaded = true; // Still lift curtain even if image fails
+                    checkCurtainLift();
+                };
+                
+                // Minimum display time (1000ms to ensure loading screen is visible)
+                setTimeout(() => {
+                    console.log('⏰ Minimum display time reached');
+                    minDisplayTime = true;
+                    checkCurtainLift();
+                }, 1000);
+                
+                function checkCurtainLift() {
+                    console.log('🔍 Checking curtain lift conditions:', {
+                        heroImageLoaded,
+                        pixelImageLoaded,
+                        minDisplayTime
+                    });
+                    
+                    // Only lift curtain when ALL conditions are met
+                    if (heroImageLoaded && pixelImageLoaded && minDisplayTime) {
+                        console.log('🚀 All conditions met - lifting curtain!');
+                        liftCurtain();
+                    }
+                }
+                
+                function liftCurtain() {
+                    // Stop fun facts rotation
+                    stopFacts();
+                    
+                    // Hide loading animation first
+                    const loadingContainer = document.getElementById('loadingContainer');
+                    if (loadingContainer) {
+                        loadingContainer.style.opacity = '0';
+                        loadingContainer.style.transition = 'opacity 0.3s ease';
+                        
+                        // Completely hide loading container after fade
+                        setTimeout(() => {
+                            loadingContainer.style.display = 'none';
+                        }, 300);
+                    }
+                    
+                    // Start lifting curtains after loading animation is hidden
+                    setTimeout(() => {
+                        // IMMEDIATELY hide the main theater curtain background when curtains start lifting
+                        theaterCurtain.style.background = 'transparent';
+                        
+                        // Listen for when curtain animation actually completes
+                        const handleTransitionEnd = (event) => {
+                            if (event.target === curtainLeft && event.propertyName === 'transform') {
+                                // Hide the entire theater curtain container when animation ends
+                                theaterCurtain.style.display = 'none';
+                                
+                                // Clean up event listener
+                                curtainLeft.removeEventListener('transitionend', handleTransitionEnd);
+                                
+                                // Start other animations immediately
+                                startMainAnimations();
+                            }
+                        };
+                        
+                        // Add event listener before starting animation
+                        curtainLeft.addEventListener('transitionend', handleTransitionEnd);
+                        
+                        curtainLeft.classList.add('lift');
+                        curtainRight.classList.add('lift');
+                        
+                        // Start hero text animation with a subtle delay after curtains begin lifting
+                        setTimeout(() => {
+                            showHeroTextWithGlow();
+                        }, 250); // Small delay for natural feel
+                    }, 400); // Brief pause after loading animation is hidden
+                }
+                
+                function showHeroTextWithGlow() {
+                    const heroText = document.querySelector('.hero-text');
+                    const heroGlow = document.querySelector('.hero-glow');
+                    
+                    // Show glow IMMEDIATELY
+                    if (heroGlow) {
+                        heroGlow.style.opacity = '1';
+                        heroGlow.style.transition = 'opacity 1.0s ease-out';
+                    }
+                    
+                    // Show text container immediately and animate words
+                    if (heroText) {
+                        heroText.style.opacity = '1';
+                        heroText.style.transform = 'translateY(0)';
+                        heroText.style.transition = 'all 1.0s ease-out';
+                        
+                        // Start word animations immediately with faster timing
+                        const words = heroText.querySelectorAll('.word');
+                        words.forEach((word, index) => {
+                            setTimeout(() => {
+                                word.style.opacity = '1';
+                                word.style.transform = 'translateY(0)';
+                                word.style.transition = 'all 0.5s ease-out';
+                            }, index * 150); // Faster stagger
+                        });
+                        
+                        // Animate other lines with reduced delay
+                        const otherLines = heroText.querySelectorAll('.line:nth-child(n+3)');
+                        otherLines.forEach((line, index) => {
+                            setTimeout(() => {
+                                line.style.opacity = '1';
+                                line.style.transform = 'translateY(0)';
+                                line.style.transition = 'all 0.7s ease-out';
+                            }, 600 + (index * 200)); // Much faster start, tighter spacing
+                        });
+                    }
+                }
+                
+                function startMainAnimations() {
+                    console.log('🎬 Starting main animations after curtain lift');
+                    
+                    // Start pixel reconstruction immediately after curtain lifts
+                    createPixelReconstruction();
+                    
+                    // Show navigation with slight delay
+                    setTimeout(() => {
+                        const nav = document.querySelector('.nav-reveal');
+                        if (nav) {
+                            nav.style.opacity = '1';
+                            nav.style.transform = 'translateY(0)';
+                            nav.style.transition = 'all 0.8s ease';
+                        }
+                    }, 200);
+                    
+                    // Show portfolio section after pixel reconstruction is well underway
+                    setTimeout(() => {
+                        const portfolio = document.querySelector('section.portfolio-reveal');
+                        if (portfolio) {
+                            portfolio.classList.add('show');
+                            portfolio.style.opacity = '1';
+                            portfolio.style.transform = 'translateY(0)';
+                            portfolio.style.transition = 'all 1.2s ease-out';
+                            console.log('📊 Portfolio section should be visible now', portfolio);
+                            
+                            // Force visibility as fallback
+                            setTimeout(() => {
+                                portfolio.style.visibility = 'visible';
+                                portfolio.style.display = 'block';
+                            }, 100);
+                        } else {
+                            console.log('❌ Portfolio section not found');
+                        }
+                    }, 1000);
+                    
+                    // Initialize masonry after portfolio section appears
+                    setTimeout(() => {
+                        console.log('🧱 About to initialize masonry');
+                        initElevatorMasonry();
+                    }, 1200);
+                }
+                
+                // Start loading both images
+                console.log('📥 Starting to load hero and pixel images...');
+                heroImage.src = 'hero.jpg';
+                pixelImage.src = 'hero.jpg'; // Same image used for pixel reconstruction
+            }
+
+            // Initialize theater curtain
+            initTheaterCurtain();
+
             // Optimized pixel reconstruction effect
             function createPixelReconstruction() {
                 const container = document.getElementById('pixelContainer');
@@ -967,19 +1402,16 @@
                 setTimeout(() => {
                     console.log('🚀 Animating UI elements with pixel effect');
                     
-                    // Glow
-                    const glow = document.querySelector('.hero-glow');
-                    if (glow) {
-                        glow.style.opacity = '1';
-                        glow.style.transition = 'opacity 0.8s ease';
-                    }
+                    // Glow is already handled in showHeroTextWithGlow(), skip duplicate
                     
-                    // Background overlay
-                    const bg = document.querySelector('.hero-bg');
-                    if (bg) {
-                        bg.style.opacity = '1';
-                        bg.style.transition = 'opacity 1s ease';
-                    }
+                    // Background overlay - delay this to avoid sudden glow change
+                    setTimeout(() => {
+                        const bg = document.querySelector('.hero-bg');
+                        if (bg) {
+                            bg.style.opacity = '1';
+                            bg.style.transition = 'opacity 2s ease';
+                        }
+                    }, 1000); // Delay background overlay to avoid visual conflicts
                     
                     // Divider
                     const divider = document.querySelector('.hero-text .line:nth-child(3)');
@@ -1016,14 +1448,17 @@
                 }, 400); // UI elements appear 200ms after pixel effect starts
             }
             
-            // Initialize pixel reconstruction
-            createPixelReconstruction();
+            // Pixel reconstruction now handled by theater curtain controller
             // Elevator Masonry Layout - Infinite Vertical Scrolling Columns
             function createElevatorMasonry() {
                 const container = document.querySelector('.modern-masonry');
-                const items = document.querySelectorAll('.masonry-item');
                 
-                if (!container || items.length === 0) return;
+                if (!container) {
+                    console.log('Masonry container not found');
+                    return;
+                }
+                
+                console.log('Creating elevator masonry', container);
 
                 // Portfolio data with ACTUAL measured dimensions and site URLs
                 const portfolioData = [
@@ -1119,7 +1554,9 @@
                     }
                 ];
                 
-                // Clear existing items
+                // Clear existing items safely
+                const existingItems = container.querySelectorAll('.masonry-item');
+                console.log('Found existing portfolio items:', existingItems.length);
                 container.innerHTML = '';
                 
                 // Create columns
@@ -1222,36 +1659,20 @@
                 }, 250);
             });
             
-            // Initialize elevator masonry layout
-            initElevatorMasonry();
+            // Elevator masonry now handled by theater curtain controller
 
-            // Mobile menu toggle
-            const mobileMenuBtn = document.querySelector('button');
-            const mobileMenu = document.createElement('div');
-            mobileMenu.className = 'md:hidden absolute top-full left-0 right-0 bg-black/95 backdrop-blur-sm py-6 px-8 space-y-4';
-            mobileMenu.innerHTML = `
-                <a href="#" class="block text-white hover:text-red-500 py-2">Work</a>
-                <a href="#" class="block text-white hover:text-red-500 py-2">Services</a>
-                <a href="#" class="block text-white hover:text-red-500 py-2">About</a>
-                <a href="#" class="block text-white hover:text-red-500 py-2">Contact</a>
-            `;
-            mobileMenu.style.display = 'none';
-            
-            mobileMenuBtn.parentNode.appendChild(mobileMenu);
-            
-            mobileMenuBtn.addEventListener('click', () => {
-                if (mobileMenu.style.display === 'none') {
-                    mobileMenu.style.display = 'block';
-                } else {
-                    mobileMenu.style.display = 'none';
-                }
-            });
+            // Mobile menu toggle - removed dropdown functionality
+            const mobileMenuBtn = document.querySelector('button.md\\:hidden');
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    console.log('Mobile menu clicked - functionality removed for now');
+                });
+            }
 
-            // Modern navbar scroll effect and parallax
+            // Modern navbar scroll effect
             window.addEventListener('scroll', () => {
                 const scrolled = window.pageYOffset;
                 const nav = document.querySelector('nav');
-                const heroText = document.querySelector('.hero-text');
                 
                 // Navbar morphing effect
                 if (scrolled > 100) {
@@ -1260,11 +1681,7 @@
                     nav.classList.remove('nav-scrolled');
                 }
                 
-                // Parallax effect for hero section
-                const rate = scrolled * -0.5;
-                if (heroText) {
-                    heroText.style.transform = `translateY(${rate}px)`;
-                }
+                // Removed parallax effect to prevent hero text from animating on scroll
             });
 
             // Hover effects are now handled via CSS for elevator masonry
