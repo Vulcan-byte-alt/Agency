@@ -172,7 +172,7 @@
             opacity: 0;
             transform: translateY(-20px);
             transition: all 0.3s ease;
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.051);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -502,164 +502,6 @@
             transform: translate(2px, -2px);
         }
 
-        /* Theater Curtain Loading Screen */
-        .theater-curtain {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 9999;
-            pointer-events: none;
-            background: linear-gradient(to bottom, 
-                rgba(239, 68, 68, 0.2) 0%, 
-                rgba(239, 68, 68, 0.15) 50%, 
-                rgba(0, 0, 0, 0.95) 50%, 
-                rgba(0, 0, 0, 0.98) 100%);
-        }
-
-        .curtain-left, .curtain-right {
-            position: absolute;
-            top: 0;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(to bottom, 
-                rgba(239, 68, 68, 0.2) 0%, 
-                rgba(239, 68, 68, 0.15) 50%, 
-                rgba(0, 0, 0, 0.95) 50%, 
-                rgba(0, 0, 0, 0.98) 100%);
-            transition: transform 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: inset 0 0 50px rgba(239, 68, 68, 0.1);
-        }
-
-        .curtain-left {
-            left: 0;
-            transform-origin: left center;
-        }
-
-        .curtain-right {
-            right: 0;
-            transform-origin: right center;
-        }
-
-        .curtain-left.lift {
-            transform: translateY(-100%);
-        }
-
-        .curtain-right.lift {
-            transform: translateY(-100%);
-        }
-
-        /* Loading Animation */
-        .loading-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 10000;
-        }
-
-        .loading-text-section {
-            position: absolute;
-            top: 45%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
-
-        .loading-spinner-section {
-            position: absolute;
-            top: 65%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
-
-        .loading-text {
-            color: rgba(255, 255, 255, 0.9);
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.125rem;
-            font-weight: 300;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            animation: loadingPulse 2s ease-in-out infinite;
-        }
-
-        .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-top: 2px solid #ef4444;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-
-        /* Fun Facts Section */
-        .loading-facts {
-            margin-top: 32px;
-            text-align: center;
-            max-width: 280px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .fact-text {
-            color: rgba(255, 255, 255, 0.7);
-            font-family: 'Inter', sans-serif;
-            font-size: 0.875rem;
-            font-weight: 400;
-            line-height: 1.4;
-            letter-spacing: 0.01em;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: factSlideIn 0.5s ease-out forwards;
-        }
-
-        .fact-label {
-            color: rgba(239, 68, 68, 0.8);
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 8px;
-            opacity: 0;
-            animation: factSlideIn 0.5s ease-out 0.2s forwards;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes factSlideIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes loadingPulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
-        }
-
-        /* Initial hero state - hidden until curtain lifts */
-        .hero-initial {
-            .hero-text {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            
-            .hero-glow {
-                opacity: 0;
-            }
-            
-            .pixel-reconstruction {
-                opacity: 0;
-            }
-        }
 
         .logo {
             background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
@@ -750,31 +592,6 @@
     </style>
 </head>
 <body class="bg-black text-white overflow-x-hidden">
-    <!-- Theater Curtain Loading Screen -->
-    <div class="theater-curtain" id="theaterCurtain">
-        <div class="curtain-left" id="curtainLeft"></div>
-        <div class="curtain-right" id="curtainRight"></div>
-        
-        <!-- Loading Animation -->
-        <div class="loading-container" id="loadingContainer">
-            <!-- Text at bottom edge of red tint -->
-            <div class="loading-text-section">
-                <div class="loading-text">Loading Experience</div>
-            </div>
-            
-            <!-- Spinner with Fun Facts at top edge of black area -->
-            <div class="loading-spinner-section">
-                <div class="loading-spinner"></div>
-                
-                <!-- Fun Facts -->
-                <div class="loading-facts">
-                    <div class="fact-label" id="factLabel">Did you know?</div>
-                    <div class="fact-text" id="factText">Digital agencies help brands grow 3x faster than traditional marketing methods.</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Navigation -->
     <nav class="nav-reveal fixed top-0 left-0 right-0 z-50 px-8 py-6">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
@@ -801,7 +618,7 @@
     </nav>
 
     <!-- Mobile Menu (moved outside nav for proper fixed positioning) -->
-    <div id="mobileMenu" class="md:hidden fixed inset-0 bg-black/90 backdrop-blur-xl z-[100] invisible opacity-0 transition-all duration-300 ease-in-out">
+    <div id="mobileMenu" class="md:hidden fixed inset-0 bg-black/50 backdrop-blur-xl z-[100] invisible opacity-0 transition-all duration-300 ease-in-out">
         <div class="w-full h-full flex flex-col items-center justify-center relative">
             <button id="mobileMenuClose" class="absolute top-8 right-8 w-10 h-10 flex justify-center items-center rounded-xl bg-gradient-to-br from-red-500/20 to-red-600/20 backdrop-blur-sm border border-red-500/30">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -1017,247 +834,73 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Fun Facts Rotator
-            function initFunFacts() {
-                const facts = [
-                    "Digital agencies help brands grow 3x faster than traditional marketing methods.",
-                    "The first banner ad was launched in 1994 and had a 44% click-through rate.",
-                    "Video content generates 1200% more shares than text and images combined.",
-                    "92% of businesses say their websites are their #1 digital marketing tool.",
-                    "Good web design can increase conversion rates by up to 200%.",
-                    "Users form an opinion about a website in just 0.05 seconds.",
-                    "Mobile users are 5x more likely to abandon a slow-loading site.",
-                    "Personalized experiences can increase sales by up to 19%.",
-                    "71% of consumers prefer ads tailored to their interests and shopping habits.",
-                    "The average person sees 5,000 ads per day across all media."
-                ];
-                
-                const factText = document.getElementById('factText');
-                const factLabel = document.getElementById('factLabel');
-                let currentIndex = 0;
-                
-                function rotateFact() {
-                    // Fade out
-                    factText.style.opacity = '0';
-                    factText.style.transform = 'translateY(10px)';
-                    
-                    setTimeout(() => {
-                        // Change text
-                        currentIndex = (currentIndex + 1) % facts.length;
-                        factText.textContent = facts[currentIndex];
-                        
-                        // Fade in
-                        factText.style.opacity = '1';
-                        factText.style.transform = 'translateY(0)';
-                    }, 250);
+
+            // Start animations immediately
+            function startMainAnimations() {
+                // Show navigation immediately
+                const nav = document.querySelector('.nav-reveal');
+                if (nav) {
+                    nav.style.opacity = '1';
+                    nav.style.transform = 'translateY(0)';
+                    nav.style.transition = 'all 0.8s ease';
                 }
                 
-                // Start rotating facts every 2.5 seconds
-                const factInterval = setInterval(rotateFact, 2500);
+                // Show hero elements immediately
+                const heroText = document.querySelector('.hero-text');
+                const heroGlow = document.querySelector('.hero-glow');
                 
-                // Clean up when loading is done
-                return () => clearInterval(factInterval);
-            }
-            
-            // Start fun facts rotation
-            const stopFacts = initFunFacts();
-
-            // Theater Curtain Loading Screen Controller
-            function initTheaterCurtain() {
-                const curtainLeft = document.getElementById('curtainLeft');
-                const curtainRight = document.getElementById('curtainRight');
-                const theaterCurtain = document.getElementById('theaterCurtain');
+                if (heroGlow) {
+                    heroGlow.style.opacity = '1';
+                    heroGlow.style.transition = 'opacity 1.0s ease-out';
+                }
                 
-                let heroImageLoaded = false;
-                let pixelImageLoaded = false;
-                let minDisplayTime = false;
-                
-                // Check if hero background image loads
-                const heroImage = new Image();
-                heroImage.onload = function() {
-                    console.log('✅ Hero background image loaded successfully');
-                    heroImageLoaded = true;
-                    checkCurtainLift();
-                };
-                
-                heroImage.onerror = function() {
-                    console.log('❌ Hero background image failed to load');
-                    heroImageLoaded = true; // Still lift curtain even if image fails
-                    checkCurtainLift();
-                };
-                
-                // Check if pixel reconstruction image loads
-                const pixelImage = new Image();
-                pixelImage.onload = function() {
-                    console.log('✅ Pixel reconstruction image loaded successfully');
-                    pixelImageLoaded = true;
-                    checkCurtainLift();
-                };
-                
-                pixelImage.onerror = function() {
-                    console.log('❌ Pixel reconstruction image failed to load');
-                    pixelImageLoaded = true; // Still lift curtain even if image fails
-                    checkCurtainLift();
-                };
-                
-                // Minimum display time (1000ms to ensure loading screen is visible)
-                setTimeout(() => {
-                    console.log('⏰ Minimum display time reached');
-                    minDisplayTime = true;
-                    checkCurtainLift();
-                }, 1000);
-                
-                function checkCurtainLift() {
-                    console.log('🔍 Checking curtain lift conditions:', {
-                        heroImageLoaded,
-                        pixelImageLoaded,
-                        minDisplayTime
+                if (heroText) {
+                    heroText.style.opacity = '1';
+                    heroText.style.transform = 'translateY(0)';
+                    heroText.style.transition = 'all 1.0s ease-out';
+                    
+                    // Animate words
+                    const words = heroText.querySelectorAll('.word');
+                    words.forEach((word, index) => {
+                        setTimeout(() => {
+                            word.style.opacity = '1';
+                            word.style.transform = 'translateY(0)';
+                            word.style.transition = 'all 0.5s ease-out';
+                        }, index * 150);
                     });
                     
-                    // Only lift curtain when ALL conditions are met
-                    if (heroImageLoaded && pixelImageLoaded && minDisplayTime) {
-                        console.log('🚀 All conditions met - lifting curtain!');
-                        liftCurtain();
-                    }
-                }
-                
-                function liftCurtain() {
-                    // Stop fun facts rotation
-                    stopFacts();
-                    
-                    // Hide loading animation first
-                    const loadingContainer = document.getElementById('loadingContainer');
-                    if (loadingContainer) {
-                        loadingContainer.style.opacity = '0';
-                        loadingContainer.style.transition = 'opacity 0.3s ease';
-                        
-                        // Completely hide loading container after fade
+                    // Animate other lines
+                    const otherLines = heroText.querySelectorAll('.line:nth-child(n+3)');
+                    otherLines.forEach((line, index) => {
                         setTimeout(() => {
-                            loadingContainer.style.display = 'none';
-                        }, 300);
-                    }
-                    
-                    // Start lifting curtains after loading animation is hidden
-                    setTimeout(() => {
-                        // IMMEDIATELY hide the main theater curtain background when curtains start lifting
-                        theaterCurtain.style.background = 'transparent';
-                        
-                        // Listen for when curtain animation actually completes
-                        const handleTransitionEnd = (event) => {
-                            if (event.target === curtainLeft && event.propertyName === 'transform') {
-                                // Hide the entire theater curtain container when animation ends
-                                theaterCurtain.style.display = 'none';
-                                
-                                // Clean up event listener
-                                curtainLeft.removeEventListener('transitionend', handleTransitionEnd);
-                                
-                                // Start other animations immediately
-                                startMainAnimations();
-                            }
-                        };
-                        
-                        // Add event listener before starting animation
-                        curtainLeft.addEventListener('transitionend', handleTransitionEnd);
-                        
-                        curtainLeft.classList.add('lift');
-                        curtainRight.classList.add('lift');
-                        
-                        // Start hero text animation with a subtle delay after curtains begin lifting
-                        setTimeout(() => {
-                            showHeroTextWithGlow();
-                        }, 250); // Small delay for natural feel
-                    }, 400); // Brief pause after loading animation is hidden
+                            line.style.opacity = '1';
+                            line.style.transform = 'translateY(0)';
+                            line.style.transition = 'all 0.7s ease-out';
+                        }, 600 + (index * 200));
+                    });
                 }
                 
-                function showHeroTextWithGlow() {
-                    const heroText = document.querySelector('.hero-text');
-                    const heroGlow = document.querySelector('.hero-glow');
-                    
-                    // Show glow IMMEDIATELY
-                    if (heroGlow) {
-                        heroGlow.style.opacity = '1';
-                        heroGlow.style.transition = 'opacity 1.0s ease-out';
-                    }
-                    
-                    // Show text container immediately and animate words
-                    if (heroText) {
-                        heroText.style.opacity = '1';
-                        heroText.style.transform = 'translateY(0)';
-                        heroText.style.transition = 'all 1.0s ease-out';
-                        
-                        // Start word animations immediately with faster timing
-                        const words = heroText.querySelectorAll('.word');
-                        words.forEach((word, index) => {
-                            setTimeout(() => {
-                                word.style.opacity = '1';
-                                word.style.transform = 'translateY(0)';
-                                word.style.transition = 'all 0.5s ease-out';
-                            }, index * 150); // Faster stagger
-                        });
-                        
-                        // Animate other lines with reduced delay
-                        const otherLines = heroText.querySelectorAll('.line:nth-child(n+3)');
-                        otherLines.forEach((line, index) => {
-                            setTimeout(() => {
-                                line.style.opacity = '1';
-                                line.style.transform = 'translateY(0)';
-                                line.style.transition = 'all 0.7s ease-out';
-                            }, 600 + (index * 200)); // Much faster start, tighter spacing
-                        });
-                    }
-                }
+                // Start pixel reconstruction
+                createPixelReconstruction();
                 
-                function startMainAnimations() {
-                    console.log('🎬 Starting main animations after curtain lift');
-                    
-                    // Start pixel reconstruction immediately after curtain lifts
-                    createPixelReconstruction();
-                    
-                    // Show navigation with slight delay
-                    setTimeout(() => {
-                        const nav = document.querySelector('.nav-reveal');
-                        if (nav) {
-                            nav.style.opacity = '1';
-                            nav.style.transform = 'translateY(0)';
-                            nav.style.transition = 'all 0.8s ease';
-                        }
-                    }, 200);
-                    
-                    // Show portfolio section after pixel reconstruction is well underway
-                    setTimeout(() => {
-                        const portfolio = document.querySelector('section.portfolio-reveal');
-                        if (portfolio) {
-                            portfolio.classList.add('show');
-                            portfolio.style.opacity = '1';
-                            portfolio.style.transform = 'translateY(0)';
-                            portfolio.style.transition = 'all 1.2s ease-out';
-                            console.log('📊 Portfolio section should be visible now', portfolio);
-                            
-                            // Force visibility as fallback
-                            setTimeout(() => {
-                                portfolio.style.visibility = 'visible';
-                                portfolio.style.display = 'block';
-                            }, 100);
-                        } else {
-                            console.log('❌ Portfolio section not found');
-                        }
-                    }, 1000);
-                    
-                    // Initialize masonry after portfolio section appears
-                    setTimeout(() => {
-                        console.log('🧱 About to initialize masonry');
-                        initElevatorMasonry();
-                    }, 1200);
-                }
+                // Show portfolio section
+                setTimeout(() => {
+                    const portfolio = document.querySelector('section.portfolio-reveal');
+                    if (portfolio) {
+                        portfolio.classList.add('show');
+                        portfolio.style.opacity = '1';
+                        portfolio.style.transform = 'translateY(0)';
+                        portfolio.style.transition = 'all 1.2s ease-out';
+                    }
+                }, 500);
                 
-                // Start loading both images
-                console.log('📥 Starting to load hero and pixel images...');
-                heroImage.src = 'hero.webp';
-                pixelImage.src = 'hero.webp'; // Same image used for pixel reconstruction
+                // Initialize masonry
+                setTimeout(() => {
+                    initElevatorMasonry();
+                }, 800);
             }
-
-            // Initialize theater curtain
-            initTheaterCurtain();
+            
+            startMainAnimations();
 
             // Optimized pixel reconstruction effect
             function createPixelReconstruction() {
@@ -1324,9 +967,8 @@
                 container.appendChild(fragment);
                 console.log('Optimized pixel shards created:', shards.length);
                 
-                // Start pixel animation along with hero text (0.2s from page load)
+                // Start pixel animation immediately
                 setTimeout(() => {
-                    console.log('🚀 Starting pixel assembly at', Date.now());
                     
                     // Sort shards by distance from center (closest first)
                     shards.sort((a, b) => a.distance - b.distance);
@@ -1457,7 +1099,6 @@
                 }, 400); // UI elements appear 200ms after pixel effect starts
             }
             
-            // Pixel reconstruction now handled by theater curtain controller
             // Elevator Masonry Layout - Infinite Vertical Scrolling Columns
             function createElevatorMasonry() {
                 const container = document.querySelector('.modern-masonry');
@@ -1663,7 +1304,6 @@
                 }, 250);
             });
             
-            // Elevator masonry now handled by theater curtain controller
 
             // --- START: Cleaned-up mobile menu toggle ---
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
