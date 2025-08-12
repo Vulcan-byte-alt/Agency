@@ -132,7 +132,7 @@
 
         .pixel-shard {
             position: absolute;
-            background-image: url('hero.jpg');
+            background-image: url('hero.webp');
             background-repeat: no-repeat;
             opacity: 0;
             transform: scale(0) rotate(45deg);
@@ -172,6 +172,10 @@
             opacity: 0;
             transform: translateY(-20px);
             transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .nav-scrolled {
@@ -788,46 +792,33 @@
                     Get Started
                 </button>
             </div>
-            <button class="md:hidden w-10 h-10 flex flex-col justify-center items-center space-y-1 rounded-xl bg-gradient-to-br from-red-500/20 to-red-600/20 backdrop-blur-sm border border-red-500/30 hover:from-red-500/30 hover:to-red-600/30 transition-all duration-300">
-                <span class="w-5 h-0.5 bg-white rounded-full transition-all shadow-sm"></span>
-                <span class="w-5 h-0.5 bg-white rounded-full transition-all shadow-sm"></span>
-                <span class="w-5 h-0.5 bg-white rounded-full transition-all shadow-sm"></span>
+            <button id="mobileMenuBtn" class="md:hidden w-10 h-10 flex flex-col justify-center items-center space-y-1 rounded-xl bg-gradient-to-br from-red-500/20 to-red-600/20 backdrop-blur-sm border border-red-500/30">
+                <span class="w-5 h-0.5 bg-white rounded-full"></span>
+                <span class="w-5 h-0.5 bg-white rounded-full"></span>
+                <span class="w-5 h-0.5 bg-white rounded-full"></span>
             </button>
-            
-            <!-- Full-Screen Mobile Menu -->
-            <div id="mobileMenu" class="md:hidden fixed inset-0 bg-black/90 backdrop-blur-xl z-50 opacity-0 invisible transition-all duration-500 ease-out">
-                <!-- Header with X Button -->
-                <div class="flex justify-between items-center p-8">
-                    <div class="logo text-2xl font-black tracking-tight text-white">
-                        AGENCY
-                    </div>
-                    <button id="mobileMenuClose" class="w-10 h-10 flex flex-col justify-center items-center space-y-1 rounded-xl bg-gradient-to-br from-red-500/20 to-red-600/20 backdrop-blur-sm border border-red-500/30 hover:from-red-500/30 hover:to-red-600/30 transition-all duration-300">
-                        <span class="w-5 h-0.5 bg-white rounded-full transition-all shadow-sm rotate-45 translate-y-1.5"></span>
-                        <span class="w-5 h-0.5 bg-white rounded-full transition-all shadow-sm opacity-0"></span>
-                        <span class="w-5 h-0.5 bg-white rounded-full transition-all shadow-sm -rotate-45 -translate-y-1.5"></span>
-                    </button>
-                </div>
-                
-                <!-- Menu Content -->
-                <div class="flex flex-col items-center justify-center h-full -mt-20">
-                    <nav class="flex flex-col items-center space-y-8">
-                        <a href="#" class="text-white text-3xl font-light tracking-wide hover:text-red-400 transition-all duration-300 transform hover:scale-105" style="font-family: 'Montserrat', sans-serif;">Work</a>
-                        <a href="#" class="text-white text-3xl font-light tracking-wide hover:text-red-400 transition-all duration-300 transform hover:scale-105" style="font-family: 'Montserrat', sans-serif;">Services</a>
-                        <a href="#" class="text-white text-3xl font-light tracking-wide hover:text-red-400 transition-all duration-300 transform hover:scale-105" style="font-family: 'Montserrat', sans-serif;">About</a>
-                        <a href="#" class="text-white text-3xl font-light tracking-wide hover:text-red-400 transition-all duration-300 transform hover:scale-105" style="font-family: 'Montserrat', sans-serif;">Contact</a>
-                    </nav>
-                    
-                    <button class="mt-12 px-12 py-4 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-full font-semibold text-lg hover:from-red-600 hover:to-red-700 transition-all duration-300 shadow-lg hover:shadow-red-500/25 hover:scale-105 transform">
-                        Get Started
-                    </button>
-                </div>
-                
-                <!-- Decorative Elements -->
-                <div class="absolute top-1/2 left-8 w-px h-32 bg-gradient-to-b from-transparent via-red-500/30 to-transparent"></div>
-                <div class="absolute top-1/2 right-8 w-px h-32 bg-gradient-to-b from-transparent via-red-500/30 to-transparent"></div>
-            </div>
         </div>
     </nav>
+
+    <!-- Mobile Menu (moved outside nav for proper fixed positioning) -->
+    <div id="mobileMenu" class="md:hidden fixed inset-0 bg-black/90 backdrop-blur-xl z-[100] invisible opacity-0 transition-all duration-300 ease-in-out">
+        <div class="w-full h-full flex flex-col items-center justify-center relative">
+            <button id="mobileMenuClose" class="absolute top-8 right-8 w-10 h-10 flex justify-center items-center rounded-xl bg-gradient-to-br from-red-500/20 to-red-600/20 backdrop-blur-sm border border-red-500/30">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+
+            <nav class="flex flex-col items-center space-y-8">
+                <a href="#" class="text-white text-3xl font-light tracking-wide hover:text-red-400 transition-colors duration-300">Work</a>
+                <a href="#" class="text-white text-3xl font-light tracking-wide hover:text-red-400 transition-colors duration-300">Services</a>
+                <a href="#" class="text-white text-3xl font-light tracking-wide hover:text-red-400 transition-colors duration-300">About</a>
+                <a href="#" class="text-white text-3xl font-light tracking-wide hover:text-red-400 transition-colors duration-300">Contact</a>
+            </nav>
+            
+            <button class="mt-12 px-12 py-4 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-full font-semibold text-lg hover:from-red-600 hover:to-red-700 transition-all duration-300 shadow-lg hover:shadow-red-500/25 hover:scale-105 transform">
+                Get Started
+            </button>
+        </div>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero-container min-h-screen relative flex items-center justify-center">
@@ -1261,8 +1252,8 @@
                 
                 // Start loading both images
                 console.log('📥 Starting to load hero and pixel images...');
-                heroImage.src = 'hero.jpg';
-                pixelImage.src = 'hero.jpg'; // Same image used for pixel reconstruction
+                heroImage.src = 'hero.webp';
+                pixelImage.src = 'hero.webp'; // Same image used for pixel reconstruction
             }
 
             // Initialize theater curtain
@@ -1385,7 +1376,7 @@
                         cleanBackground.style.cssText = `
                             position: absolute;
                             inset: 0;
-                            background-image: url('hero.jpg');
+                            background-image: url('hero.webp');
                             background-size: ${screenWidth}px ${screenHeight}px;
                             background-position: 0px 0px;
                             background-repeat: no-repeat;
@@ -1674,51 +1665,33 @@
             
             // Elevator masonry now handled by theater curtain controller
 
-            // --- START: Premium full-screen mobile menu toggle ---
-            const mobileMenuBtn = document.querySelector('button.md\\:hidden');
+            // --- START: Cleaned-up mobile menu toggle ---
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
             const mobileMenu = document.getElementById('mobileMenu');
             const mobileMenuClose = document.getElementById('mobileMenuClose');
-            const burgerSpans = mobileMenuBtn ? mobileMenuBtn.querySelectorAll('span') : [];
 
             function openMobileMenu() {
                 if (mobileMenu) {
-                    mobileMenu.classList.remove('opacity-0', 'invisible');
-                    mobileMenu.classList.add('opacity-100', 'visible');
-                    
-                    // Animate burger icon to X
-                    burgerSpans[0].classList.add('rotate-45', 'translate-y-1.5');
-                    burgerSpans[1].classList.add('opacity-0');
-                    burgerSpans[2].classList.add('-rotate-45', '-translate-y-1.5');
-                    
-                    // Prevent body scroll
-                    document.body.style.overflow = 'hidden';
+                    mobileMenu.classList.remove('invisible', 'opacity-0');
+                    document.body.style.overflow = 'hidden'; // Prevent scrolling
                 }
             }
 
             function closeMobileMenu() {
                 if (mobileMenu) {
-                    mobileMenu.classList.remove('opacity-100', 'visible');
-                    mobileMenu.classList.add('opacity-0', 'invisible');
-                    
-                    // Animate X back to burger
-                    burgerSpans[0].classList.remove('rotate-45', 'translate-y-1.5');
-                    burgerSpans[1].classList.remove('opacity-0');
-                    burgerSpans[2].classList.remove('-rotate-45', '-translate-y-1.5');
-                    
-                    // Restore body scroll
-                    document.body.style.overflow = '';
+                    mobileMenu.classList.add('invisible', 'opacity-0');
+                    document.body.style.overflow = ''; // Restore scrolling
                 }
             }
 
+            // Event Listeners
             if (mobileMenuBtn) {
                 mobileMenuBtn.addEventListener('click', openMobileMenu);
             }
-
             if (mobileMenuClose) {
                 mobileMenuClose.addEventListener('click', closeMobileMenu);
             }
-
-            // Close menu when clicking on overlay
+            // Optional: Close menu by clicking the background overlay
             if (mobileMenu) {
                 mobileMenu.addEventListener('click', (e) => {
                     if (e.target === mobileMenu) {
@@ -1726,7 +1699,7 @@
                     }
                 });
             }
-            // --- END: Premium mobile menu toggle ---
+            // --- END: Cleaned-up mobile menu toggle ---
 
             // Modern navbar scroll effect
             window.addEventListener('scroll', () => {
